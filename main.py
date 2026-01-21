@@ -359,6 +359,6 @@ if __name__ == "__main__":
         app,
         host=HOST,
         port=PORT,
-        debug=DEBUG,
+        reload=DEBUG,
         log_level="info"
     )

@@ -68,7 +68,7 @@ class Model(Base):
     last_prediction_at = Column(DateTime, nullable=True)
     
     model_path = Column(String(255))  # Path to saved model file
-    metadata = Column(JSON)  # Store model hyperparameters
+    model_metadata = Column(JSON)  # Store model hyperparameters
     
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
