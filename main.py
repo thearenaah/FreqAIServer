@@ -10,7 +10,7 @@ from datetime import datetime
 import logging
 
 from database import init_db, get_db, Model, Prediction, TrainingData, TrainingJob
-from config import HOST, PORT, DEBUG
+from config import HOST, PORT, DEBUG, ALLOWED_ORIGINS
 from market_data import MarketDataFetcher
 from features import FeatureEngineer
 from models import ModelTrainer
@@ -32,7 +32,7 @@ app = FastAPI(
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

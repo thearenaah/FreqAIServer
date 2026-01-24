@@ -18,11 +18,22 @@ HOST = os.getenv("FREQAI_HOST", "0.0.0.0")
 PORT = int(os.getenv("FREQAI_PORT", "9000"))
 DEBUG = os.getenv("FREQAI_DEBUG", "False") == "True"
 
+# CORS - Allowed origins for frontend and backend communication
+ALLOWED_ORIGINS = [
+    "https://thearena.cloud",
+    "https://api.thearena.cloud",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
 # Redis
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/1")
 
 # Market Data
 CCXT_EXCHANGE = os.getenv("CCXT_EXCHANGE", "binance")
+TWELVE_DATA_API_KEY = os.getenv("TWELVE_DATA_API_KEY", "")
 FEATURE_WINDOW = int(os.getenv("FEATURE_WINDOW", "20"))
 TRAINING_WINDOW = int(os.getenv("TRAINING_WINDOW", "100"))
 
