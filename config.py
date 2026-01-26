@@ -10,7 +10,7 @@ load_dotenv()
 # Database
 DATABASE_URL = os.getenv(
     "FREQAI_DATABASE_URL",
-    "postgresql://freqai_user:freqai_pass@localhost:5432/freqai_db"
+    "sqlite:///./freqai_models.db"  # Local SQLite for reliability
 )
 
 # Server

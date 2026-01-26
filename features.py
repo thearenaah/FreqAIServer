@@ -328,17 +328,135 @@ class FeatureEngineer:
         return features
     
     @staticmethod
+    def calculate_advanced_features(df: pd.DataFrame) -> Dict[str, float]:
+        """Calculate 35+ advanced features for high-accuracy predictions"""
+        close = df['close'].values
+        high = df['high'].values
+        low = df['low'].values
+        volume = df['volume'].values
+        
+        features = {}
+        
+        # 1. TREND STRENGTH FEATURES (8)
+        sma_20 = pd.Series(close).rolling(20).mean().values[-1]
+        sma_50 = pd.Series(close).rolling(50).mean().values[-1]
+        sma_200 = pd.Series(close).rolling(200).mean().values[-1]
+        current_price = close[-1]
+        
+        features['trend_sma20_above_50'] = 1 if sma_20 > sma_50 else 0
+        features['trend_sma50_above_200'] = 1 if sma_50 > sma_200 else 0
+        features['trend_price_above_sma20'] = 1 if current_price > sma_20 else 0
+        features['trend_price_above_sma50'] = 1 if current_price > sma_50 else 0
+        features['trend_slope_20'] = (sma_20 - pd.Series(close).rolling(20).mean().values[-20]) / (pd.Series(close).rolling(20).mean().values[-20] + 1e-10) if len(close) > 20 else 0
+        features['trend_slope_50'] = (sma_50 - pd.Series(close).rolling(50).mean().values[-50]) / (pd.Series(close).rolling(50).mean().values[-50] + 1e-10) if len(close) > 50 else 0
+        features['uptrend_strength'] = 1 if (sma_20 > sma_50 > sma_200) else (0.5 if sma_20 > sma_50 else 0)
+        features['downtrend_strength'] = 1 if (sma_20 < sma_50 < sma_200) else (0.5 if sma_20 < sma_50 else 0)
+        
+        # 2. MOMENTUM FEATURES (8)
+        rsi = FeatureEngineer.calculate_rsi(close, 14)[-1]
+        rsi_20 = FeatureEngineer.calculate_rsi(close, 20)[-1] if len(close) > 20 else 50
+        macd, signal, hist = FeatureEngineer.calculate_macd(close)
+        
+        features['momentum_rsi'] = rsi / 100.0
+        features['momentum_rsi_overbought'] = 1 if rsi > 70 else 0
+        features['momentum_rsi_oversold'] = 1 if rsi < 30 else 0
+        features['momentum_macd_positive'] = 1 if macd[-1] > signal[-1] else 0
+        features['momentum_macd_histogram'] = hist[-1] / (np.std(hist) + 1e-10) if len(hist) > 1 else 0
+        features['momentum_macd_strength'] = abs(macd[-1] - signal[-1]) / (abs(np.mean(np.abs(hist))) + 1e-10)
+        features['momentum_divergence'] = 1 if (rsi > 50 and close[-1] < close[-10]) else 0
+        features['momentum_convergence'] = 1 if (rsi > 50 and close[-1] > close[-10]) else 0
+        
+        # 3. VOLATILITY FEATURES (7)
+        atr = FeatureEngineer.calculate_atr(high, low, close, 14)[-1]
+        atr_sma = np.mean(FeatureEngineer.calculate_atr(high, low, close, 14)[-14:])
+        returns = np.diff(close) / (close[:-1] + 1e-10)
+        
+        features['volatility_atr'] = atr / current_price if current_price > 0 else 0
+        features['volatility_high'] = 1 if atr > atr_sma * 1.2 else 0
+        features['volatility_low'] = 1 if atr < atr_sma * 0.8 else 0
+        features['volatility_expanding'] = 1 if atr > np.mean(FeatureEngineer.calculate_atr(high, low, close, 14)[-20:-1]) else 0
+        features['volatility_std'] = np.std(returns[-20:]) if len(returns) > 20 else 0
+        features['volatility_regime_high'] = 1 if np.std(returns[-20:]) > np.std(returns) * 1.1 else 0
+        features['volatility_compression'] = 1 if atr < atr_sma * 0.7 else 0
+        
+        # 4. VOLUME FEATURES (7)
+        vol_sma_20 = np.mean(volume[-20:]) if len(volume) > 20 else np.mean(volume)
+        vol_sma_50 = np.mean(volume[-50:]) if len(volume) > 50 else np.mean(volume)
+        
+        features['volume_ratio'] = volume[-1] / (vol_sma_20 + 1e-10)
+        features['volume_above_avg'] = 1 if volume[-1] > vol_sma_20 else 0
+        features['volume_confirmation'] = 1 if (volume[-1] > vol_sma_20 and close[-1] > close[-2]) else 0
+        features['volume_divergence'] = 1 if (volume[-1] < vol_sma_20 and close[-1] > close[-2]) else 0
+        features['volume_climax'] = 1 if volume[-1] > np.percentile(volume[-20:], 90) else 0
+        features['volume_drying_up'] = 1 if volume[-1] < np.percentile(volume[-20:], 20) else 0
+        features['volume_trend'] = 1 if vol_sma_20 > vol_sma_50 else 0
+        
+        # 5. SUPPORT/RESISTANCE (6)
+        recent_high = np.max(high[-20:]) if len(high) > 20 else np.max(high)
+        recent_low = np.min(low[-20:]) if len(low) > 20 else np.min(low)
+        recent_range = recent_high - recent_low
+        
+        features['resistance_nearness'] = (recent_high - current_price) / (recent_range + 1e-10) if recent_range > 0 else 0.5
+        features['support_nearness'] = (current_price - recent_low) / (recent_range + 1e-10) if recent_range > 0 else 0.5
+        features['at_resistance'] = 1 if (recent_high - current_price) / (recent_range + 1e-10) < 0.1 else 0
+        features['at_support'] = 1 if (current_price - recent_low) / (recent_range + 1e-10) < 0.1 else 0
+        features['breakout_resistance'] = 1 if current_price > recent_high else 0
+        features['breakout_support'] = 1 if current_price < recent_low else 0
+        
+        # 6. MARKET STRUCTURE (5)
+        features['higher_lows'] = 1 if (low[-1] > low[-5] > low[-10]) else 0
+        features['lower_highs'] = 1 if (high[-1] < high[-5] < high[-10]) else 0
+        features['higher_highs'] = 1 if (high[-1] > high[-5] > high[-10]) else 0
+        features['lower_lows'] = 1 if (low[-1] < low[-5] < low[-10]) else 0
+        features['inside_day'] = 1 if (high[-1] < high[-2] and low[-1] > low[-2]) else 0
+        
+        # 7. CANDLE PATTERNS (4)
+        body_size = abs(close[-1] - close[-2])
+        upper_wick = high[-1] - max(close[-1], close[-2])
+        lower_wick = min(close[-1], close[-2]) - low[-1]
+        candle_range = high[-1] - low[-1]
+        
+        features['candle_bullish'] = 1 if close[-1] > close[-2] else 0
+        features['candle_hammer'] = 1 if (lower_wick > candle_range * 0.6 and upper_wick < candle_range * 0.2) else 0
+        features['candle_shooting_star'] = 1 if (upper_wick > candle_range * 0.6 and lower_wick < candle_range * 0.2) else 0
+        features['candle_doji'] = 1 if (abs(close[-1] - close[-2]) < candle_range * 0.1) else 0
+        
+        # 8. PRICE ACTION (4)
+        features['price_above_open'] = 1 if close[-1] > close[-1] else 0  # Bullish close
+        features['price_momentum'] = (close[-1] - close[-5]) / (close[-5] + 1e-10) if len(close) > 5 else 0
+        features['consecutive_ups'] = sum(1 for i in range(1, min(5, len(close))) if close[-i] > close[-(i+1)])
+        features['consecutive_downs'] = sum(1 for i in range(1, min(5, len(close))) if close[-i] < close[-(i+1)])
+        
+        return features
+    
+    @staticmethod
     def get_feature_columns() -> List[str]:
         """Get list of all feature column names"""
         return [
-            'sma_20', 'sma_50', 'sma_200',
-            'rsi_14',
-            'macd', 'macd_signal', 'macd_histogram',
-            'bb_upper', 'bb_middle', 'bb_lower', 'bb_position',
-            'atr',
-            'volume_sma', 'volume_ratio',
-            'price_change', 'volatility',
-            'returns_mean', 'returns_std'
+            # Trend (8)
+            'trend_sma20_above_50', 'trend_sma50_above_200', 
+            'trend_price_above_sma20', 'trend_price_above_sma50',
+            'trend_slope_20', 'trend_slope_50',
+            'uptrend_strength', 'downtrend_strength',
+            # Momentum (8)
+            'momentum_rsi', 'momentum_rsi_overbought', 'momentum_rsi_oversold',
+            'momentum_macd_positive', 'momentum_macd_histogram', 'momentum_macd_strength',
+            'momentum_divergence', 'momentum_convergence',
+            # Volatility (7)
+            'volatility_atr', 'volatility_high', 'volatility_low', 
+            'volatility_expanding', 'volatility_std', 'volatility_regime_high', 'volatility_compression',
+            # Volume (7)
+            'volume_ratio', 'volume_above_avg', 'volume_confirmation', 
+            'volume_divergence', 'volume_climax', 'volume_drying_up', 'volume_trend',
+            # Support/Resistance (6)
+            'resistance_nearness', 'support_nearness', 
+            'at_resistance', 'at_support', 'breakout_resistance', 'breakout_support',
+            # Market Structure (5)
+            'higher_lows', 'lower_highs', 'higher_highs', 'lower_lows', 'inside_day',
+            # Candle Patterns (4)
+            'candle_bullish', 'candle_hammer', 'candle_shooting_star', 'candle_doji',
+            # Price Action (4)
+            'price_above_open', 'price_momentum', 'consecutive_ups', 'consecutive_downs'
         ]
 
 

@@ -129,13 +129,17 @@ async def train_model(
         ).first()
         
         if not model:
+            # Sanitize symbol for file path (replace / with _)
+            safe_symbol = request.symbol.replace('/', '_')
+            model_path = f"./models/{safe_symbol}_{request.timeframe}_model.pkl"
+            
             model = Model(
                 name=f"{request.symbol}_{request.timeframe}_v1",
                 symbol=request.symbol,
                 timeframe=request.timeframe,
                 version=1,
                 trained_at=datetime.utcnow(),
-                model_path=f"./models/{request.symbol}_{request.timeframe}.pkl"
+                model_path=model_path
             )
             db.add(model)
             db.commit()
@@ -174,21 +178,33 @@ async def predict_signal(
     Get signal prediction for a symbol/timeframe
     """
     try:
-        # Get active model
-        model = db.query(Model).filter(
+        # Get active models, ordered by accuracy (highest first)
+        models = db.query(Model).filter(
             Model.symbol == request.symbol,
             Model.timeframe == request.timeframe,
             Model.is_deployed == True
-        ).first()
+        ).order_by(Model.accuracy.desc()).all()
         
-        if not model:
+        if not models:
             raise HTTPException(
                 status_code=404,
                 detail=f"No active model for {request.symbol} {request.timeframe}"
             )
         
+        # Use model with highest accuracy
+        model = models[0]
+        
         # Get prediction
         prediction = trainer.predict(model, db)
+        
+        # Clean features (remove NaN values for JSON storage)
+        features = prediction.get('features', {})
+        cleaned_features = {}
+        for k, v in features.items():
+            if v is not None and not (isinstance(v, float) and (v != v or v == float('inf') or v == float('-inf'))):
+                cleaned_features[k] = v
+            else:
+                cleaned_features[k] = 0  # Replace NaN/Inf with 0
         
         # Store prediction
         pred_obj = Prediction(
@@ -201,7 +217,7 @@ async def predict_signal(
             probability_buy=prediction.get('probability_buy', 0),
             probability_sell=prediction.get('probability_sell', 0),
             probability_hold=prediction.get('probability_hold', 0),
-            features_used=prediction.get('features', {})
+            features_used=cleaned_features
         )
         db.add(pred_obj)
         db.commit()

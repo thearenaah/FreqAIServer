@@ -1,0 +1,1246 @@
+/home/soarer/Documents/projects/Arena/FreqAIServer/main.py:358: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+/home/soarer/Documents/projects/Arena/FreqAIServer/main.py:366: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("shutdown")
+INFO:     Started server process [10155]
+INFO:     Waiting for application startup.
+INFO:__main__:FreqAI server starting on 0.0.0.0:9000
+INFO:__main__:Database initialized
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:9000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:39214 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42294 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42300 - "POST /api/v1/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58686 - "POST /api/v1/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58702 - "POST /api/v1/predict HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56584 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for EUR/USD 1m
+INFO:     127.0.0.1:40260 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for EUR/USD 5m
+INFO:     127.0.0.1:38286 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for EUR/USD 15m
+INFO:     127.0.0.1:38292 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for EUR/USD 30m
+INFO:     127.0.0.1:42232 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5000, Recall: 0.6111, F1: 0.5500
+INFO:     127.0.0.1:42244 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for EUR/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:     127.0.0.1:42246 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.5333, Recall: 0.4444, F1: 0.4848
+INFO:models:Model training completed for EUR/USD 4h
+ERROR:models:Model training failed: No training data found for EUR/USD 1d
+INFO:     127.0.0.1:34538 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for GBP/USD 1m
+INFO:     127.0.0.1:34546 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for GBP/USD 5m
+INFO:     127.0.0.1:50264 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for GBP/USD 15m
+INFO:     127.0.0.1:50266 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for GBP/USD 30m
+INFO:     127.0.0.1:39822 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5000, Recall: 0.6667, F1: 0.5714
+INFO:     127.0.0.1:39828 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for GBP/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4444, Precision: 0.5556, Recall: 0.4545, F1: 0.5000
+INFO:     127.0.0.1:39834 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for GBP/USD 4h
+ERROR:models:Model training failed: No training data found for GBP/USD 1d
+INFO:     127.0.0.1:52100 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/JPY 1m
+INFO:     127.0.0.1:52116 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/JPY 5m
+INFO:     127.0.0.1:42112 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/JPY 15m
+INFO:     127.0.0.1:42120 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/JPY 30m
+INFO:     127.0.0.1:42130 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.5263, Recall: 0.5556, F1: 0.5405
+INFO:     127.0.0.1:41852 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/JPY 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.6111, Precision: 0.5833, Recall: 0.7778, F1: 0.6667
+INFO:     127.0.0.1:41860 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/JPY 4h
+ERROR:models:Model training failed: No training data found for USD/JPY 1d
+INFO:     127.0.0.1:36352 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for XAU/USD 1m
+INFO:     127.0.0.1:36364 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for XAU/USD 5m
+INFO:     127.0.0.1:36370 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for XAU/USD 15m
+INFO:     127.0.0.1:44012 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for XAU/USD 30m
+INFO:     127.0.0.1:44018 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5357, Recall: 0.7500, F1: 0.6250
+INFO:     127.0.0.1:41520 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for XAU/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4444, Precision: 0.4091, Recall: 0.5625, F1: 0.4737
+INFO:     127.0.0.1:41522 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for XAU/USD 4h
+ERROR:models:Model training failed: No training data found for XAU/USD 1d
+INFO:     127.0.0.1:34968 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for AUD/USD 1m
+INFO:     127.0.0.1:34978 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for AUD/USD 5m
+INFO:     127.0.0.1:34984 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for AUD/USD 15m
+INFO:     127.0.0.1:53830 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for AUD/USD 30m
+INFO:     127.0.0.1:53834 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.6389, Precision: 0.5833, Recall: 0.8235, F1: 0.6829
+INFO:     127.0.0.1:48524 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for AUD/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4444, Precision: 0.5000, Recall: 0.5000, F1: 0.5000
+INFO:     127.0.0.1:48530 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for AUD/USD 4h
+ERROR:models:Model training failed: No training data found for AUD/USD 1d
+INFO:     127.0.0.1:48546 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/CAD 1m
+INFO:     127.0.0.1:43760 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/CAD 5m
+INFO:     127.0.0.1:43842 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/CAD 15m
+INFO:     127.0.0.1:43850 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/CAD 30m
+INFO:     127.0.0.1:40066 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3889, Precision: 0.2778, Recall: 0.3571, F1: 0.3125
+INFO:     127.0.0.1:40074 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/CAD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.5000, Recall: 0.3125, F1: 0.3846
+INFO:models:Model training completed for USD/CAD 4h
+INFO:     127.0.0.1:55454 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/CAD 1d
+INFO:     127.0.0.1:55464 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/CHF 1m
+INFO:     127.0.0.1:55470 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/CHF 5m
+INFO:     127.0.0.1:59948 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/CHF 15m
+INFO:     127.0.0.1:38308 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for USD/CHF 30m
+INFO:     127.0.0.1:38324 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.6111, Precision: 0.5385, Recall: 0.4667, F1: 0.5000
+INFO:     127.0.0.1:54978 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/CHF 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4444, Precision: 0.5000, Recall: 0.6000, F1: 0.5455
+INFO:     127.0.0.1:54992 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/CHF 4h
+ERROR:models:Model training failed: No training data found for USD/CHF 1d
+INFO:     127.0.0.1:60712 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for GBP/JPY 1m
+INFO:     127.0.0.1:60728 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for GBP/JPY 5m
+INFO:     127.0.0.1:60738 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for GBP/JPY 15m
+INFO:     127.0.0.1:45090 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for GBP/JPY 30m
+INFO:     127.0.0.1:45100 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5833, Precision: 0.4762, Recall: 0.7143, F1: 0.5714
+INFO:     127.0.0.1:45110 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for GBP/JPY 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.6316, Recall: 0.5455, F1: 0.5854
+INFO:     127.0.0.1:44390 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for GBP/JPY 4h
+ERROR:models:Model training failed: No training data found for GBP/JPY 1d
+INFO:     127.0.0.1:44406 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for EUR/AUD 1m
+INFO:     127.0.0.1:58184 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for EUR/AUD 5m
+INFO:     127.0.0.1:58190 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for EUR/AUD 15m
+INFO:     127.0.0.1:34786 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for EUR/AUD 30m
+INFO:     127.0.0.1:34794 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4167, Precision: 0.5000, Recall: 0.3810, F1: 0.4324
+INFO:     127.0.0.1:34796 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for EUR/AUD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.6250, Recall: 0.2632, F1: 0.3704
+INFO:     127.0.0.1:54654 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for EUR/AUD 4h
+INFO:     127.0.0.1:54660 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:models:Model training failed: No training data found for GBP/AUD 1m
+ERROR:models:Model training failed: No training data found for EUR/AUD 1d
+INFO:     127.0.0.1:37322 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5882, Recall: 0.4762, F1: 0.5263
+INFO:     127.0.0.1:37332 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for EUR/USD 1h
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(EUR/USD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'EUR/USD_1d_v1', 'symbol': 'EUR/USD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 3, 34, 423773), 'last_prediction_at': None, 'model_path': './models/EUR_USD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 3, 34, 424277), 'updated_at': datetime.datetime(2026, 1, 25, 16, 3, 34, 424280)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:60542 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.5333, Recall: 0.4706, F1: 0.5000
+INFO:models:Model training completed for EUR/USD 4h
+INFO:     127.0.0.1:60550 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.4545, Recall: 0.6250, F1: 0.5263
+INFO:     127.0.0.1:60558 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(GBP/USD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'GBP/USD_1d_v1', 'symbol': 'GBP/USD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 3, 42, 944691), 'last_prediction_at': None, 'model_path': './models/GBP_USD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 3, 42, 945023), 'updated_at': datetime.datetime(2026, 1, 25, 16, 3, 42, 945025)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:60574 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Model training completed for GBP/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4167, Precision: 0.4286, Recall: 0.3158, F1: 0.3636
+INFO:     127.0.0.1:48476 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for GBP/USD 4h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.4000, Recall: 0.4000, F1: 0.4000
+INFO:     127.0.0.1:48488 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/JPY 1h
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(USD/JPY_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'USD/JPY_1d_v1', 'symbol': 'USD/JPY', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 3, 50, 530708), 'last_prediction_at': None, 'model_path': './models/USD_JPY_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 3, 50, 531045), 'updated_at': datetime.datetime(2026, 1, 25, 16, 3, 50, 531046)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:48496 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.5909, Recall: 0.6190, F1: 0.6047
+INFO:     127.0.0.1:38220 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/JPY 4h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.6389, Precision: 0.8095, Recall: 0.6538, F1: 0.7234
+INFO:     127.0.0.1:38232 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for XAU/USD 1h
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(XAU/USD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'XAU/USD_1d_v1', 'symbol': 'XAU/USD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 3, 58, 959628), 'last_prediction_at': None, 'model_path': './models/XAU_USD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 3, 58, 959965), 'updated_at': datetime.datetime(2026, 1, 25, 16, 3, 58, 959967)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:38242 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3889, Precision: 0.3000, Recall: 0.4286, F1: 0.3529
+INFO:models:Model training completed for XAU/USD 4h
+INFO:     127.0.0.1:38246 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5000, Recall: 0.5000, F1: 0.5000
+INFO:     127.0.0.1:37984 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for AUD/USD 1h
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(AUD/USD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'AUD/USD_1d_v1', 'symbol': 'AUD/USD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 4, 7, 401547), 'last_prediction_at': None, 'model_path': './models/AUD_USD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 4, 7, 401883), 'updated_at': datetime.datetime(2026, 1, 25, 16, 4, 7, 401884)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:37998 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5200, Recall: 0.6842, F1: 0.5909
+INFO:models:Model training completed for AUD/USD 4h
+INFO:     127.0.0.1:38014 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4167, Precision: 0.3750, Recall: 0.3529, F1: 0.3636
+INFO:     127.0.0.1:47898 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/CAD 1h
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(USD/CAD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'USD/CAD_1d_v1', 'symbol': 'USD/CAD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 4, 16, 567593), 'last_prediction_at': None, 'model_path': './models/USD_CAD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 4, 16, 567928), 'updated_at': datetime.datetime(2026, 1, 25, 16, 4, 16, 567929)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:47902 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4722, Precision: 0.4545, Recall: 0.2778, F1: 0.3448
+INFO:models:Model training completed for USD/CAD 4h
+INFO:     127.0.0.1:47904 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.3529, Recall: 0.5000, F1: 0.4138
+INFO:     127.0.0.1:47914 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/CHF 1h
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(USD/CHF_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'USD/CHF_1d_v1', 'symbol': 'USD/CHF', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 4, 24, 622615), 'last_prediction_at': None, 'model_path': './models/USD_CHF_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 4, 24, 622951), 'updated_at': datetime.datetime(2026, 1, 25, 16, 4, 24, 622952)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:57562 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3611, Precision: 0.4737, Recall: 0.4091, F1: 0.4390
+INFO:models:Model training completed for USD/CHF 4h
+INFO:     127.0.0.1:57568 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:     127.0.0.1:57580 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.5294, Recall: 0.5294, F1: 0.5294
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(GBP/JPY_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'GBP/JPY_1d_v1', 'symbol': 'GBP/JPY', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 4, 33, 262614), 'last_prediction_at': None, 'model_path': './models/GBP_JPY_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 4, 33, 262978), 'updated_at': datetime.datetime(2026, 1, 25, 16, 4, 33, 262980)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:43368 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Model training completed for GBP/JPY 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.5909, Recall: 0.6500, F1: 0.6190
+INFO:models:Model training completed for GBP/JPY 4h
+INFO:     127.0.0.1:43378 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43388 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(EUR/AUD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'EUR/AUD_1d_v1', 'symbol': 'EUR/AUD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 4, 42, 467559), 'last_prediction_at': None, 'model_path': './models/EUR_AUD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 4, 42, 467890), 'updated_at': datetime.datetime(2026, 1, 25, 16, 4, 42, 467891)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:43396 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.4545, Recall: 0.3125, F1: 0.3704
+INFO:models:Model training completed for EUR/AUD 4h
+INFO:     127.0.0.1:34708 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3611, Precision: 0.1579, Recall: 0.3000, F1: 0.2069
+INFO:     127.0.0.1:34716 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4722, Precision: 0.4286, Recall: 0.5625, F1: 0.4865
+INFO:models:Model training completed for GBP/AUD 1h
+INFO:models:Model training completed for EUR/AUD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.6389, Precision: 0.6522, Recall: 0.7500, F1: 0.6977
+INFO:     127.0.0.1:34726 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for GBP/AUD 4h
+ERROR:models:Model training failed: No training data found for GBP/AUD 1d
+INFO:     127.0.0.1:59410 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.6364, Recall: 0.3333, F1: 0.4375
+INFO:     127.0.0.1:59414 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for BTC/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.5000, Recall: 0.6471, F1: 0.5641
+INFO:     127.0.0.1:50486 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for BTC/USD 4h
+ERROR:models:Model training failed: No training data found for BTC/USD 1d
+INFO:     127.0.0.1:50496 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3333, Precision: 0.3077, Recall: 0.2105, F1: 0.2500
+INFO:     127.0.0.1:38880 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for ETH/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3889, Precision: 0.2941, Recall: 0.3333, F1: 0.3125
+INFO:     127.0.0.1:38890 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for ETH/USD 4h
+ERROR:models:Model training failed: No training data found for ETH/USD 1d
+INFO:     127.0.0.1:38896 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5556, Recall: 0.5000, F1: 0.5263
+INFO:     127.0.0.1:60878 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for LTC/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4444, Precision: 0.4000, Recall: 0.3529, F1: 0.3750
+INFO:     127.0.0.1:60888 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for LTC/USD 4h
+ERROR:models:Model training failed: No training data found for LTC/USD 1d
+INFO:     127.0.0.1:38892 - "GET /api/v1/models HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41326 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:     127.0.0.1:41340 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5882, Recall: 0.4762, F1: 0.5263
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(EUR/USD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'EUR/USD_1d_v1', 'symbol': 'EUR/USD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 12, 37, 449732), 'last_prediction_at': None, 'model_path': './models/EUR_USD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 12, 37, 450042), 'updated_at': datetime.datetime(2026, 1, 25, 16, 12, 37, 450044)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:41342 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for EUR/USD 1h
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.5333, Recall: 0.4706, F1: 0.5000
+INFO:     127.0.0.1:41348 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for EUR/USD 4h
+INFO:     127.0.0.1:58652 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.4545, Recall: 0.6250, F1: 0.5263
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(GBP/USD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'GBP/USD_1d_v1', 'symbol': 'GBP/USD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 12, 46, 675064), 'last_prediction_at': None, 'model_path': './models/GBP_USD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 12, 46, 675382), 'updated_at': datetime.datetime(2026, 1, 25, 16, 12, 46, 675384)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:58658 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for GBP/USD 1h
+INFO:models:Model trained - Accuracy: 0.4167, Precision: 0.4286, Recall: 0.3158, F1: 0.3636
+INFO:     127.0.0.1:58666 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for GBP/USD 4h
+INFO:     127.0.0.1:58670 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4722, Precision: 0.3750, Recall: 0.4000, F1: 0.3871
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(USD/JPY_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'USD/JPY_1d_v1', 'symbol': 'USD/JPY', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 12, 51, 568471), 'last_prediction_at': None, 'model_path': './models/USD_JPY_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 12, 51, 568804), 'updated_at': datetime.datetime(2026, 1, 25, 16, 12, 51, 568805)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:58680 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Model training completed for USD/JPY 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.6087, Recall: 0.6667, F1: 0.6364
+INFO:     127.0.0.1:34696 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/JPY 4h
+INFO:     127.0.0.1:34708 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.6389, Precision: 0.8095, Recall: 0.6538, F1: 0.7234
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(XAU/USD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'XAU/USD_1d_v1', 'symbol': 'XAU/USD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 12, 56, 602511), 'last_prediction_at': None, 'model_path': './models/XAU_USD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 12, 56, 602830), 'updated_at': datetime.datetime(2026, 1, 25, 16, 12, 56, 602831)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:34714 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Model training completed for XAU/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3889, Precision: 0.3000, Recall: 0.4286, F1: 0.3529
+INFO:     127.0.0.1:34726 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for XAU/USD 4h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5000, Recall: 0.5000, F1: 0.5000
+INFO:     127.0.0.1:34732 - "POST /api/v1/train HTTP/1.1" 200 OK
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(AUD/USD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'AUD/USD_1d_v1', 'symbol': 'AUD/USD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 13, 12, 65706), 'last_prediction_at': None, 'model_path': './models/AUD_USD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 13, 12, 65983), 'updated_at': datetime.datetime(2026, 1, 25, 16, 13, 12, 65985)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:34734 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Model training completed for AUD/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5200, Recall: 0.6842, F1: 0.5909
+INFO:     127.0.0.1:56276 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for AUD/USD 4h
+INFO:     127.0.0.1:56290 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4167, Precision: 0.3750, Recall: 0.3529, F1: 0.3636
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(USD/CAD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'USD/CAD_1d_v1', 'symbol': 'USD/CAD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 13, 16, 892490), 'last_prediction_at': None, 'model_path': './models/USD_CAD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 13, 16, 892816), 'updated_at': datetime.datetime(2026, 1, 25, 16, 13, 16, 892817)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:56302 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for USD/CAD 1h
+INFO:models:Model trained - Accuracy: 0.4722, Precision: 0.4545, Recall: 0.2778, F1: 0.3448
+INFO:     127.0.0.1:56306 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/CAD 4h
+INFO:     127.0.0.1:56314 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.3529, Recall: 0.5000, F1: 0.4138
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(USD/CHF_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'USD/CHF_1d_v1', 'symbol': 'USD/CHF', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 13, 21, 649505), 'last_prediction_at': None, 'model_path': './models/USD_CHF_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 13, 21, 649810), 'updated_at': datetime.datetime(2026, 1, 25, 16, 13, 21, 649811)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:56326 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for USD/CHF 1h
+INFO:models:Model trained - Accuracy: 0.3611, Precision: 0.4737, Recall: 0.4091, F1: 0.4390
+INFO:     127.0.0.1:35340 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/CHF 4h
+INFO:     127.0.0.1:35350 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.5294, Recall: 0.5294, F1: 0.5294
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(GBP/JPY_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'GBP/JPY_1d_v1', 'symbol': 'GBP/JPY', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 13, 26, 704528), 'last_prediction_at': None, 'model_path': './models/GBP_JPY_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 13, 26, 704862), 'updated_at': datetime.datetime(2026, 1, 25, 16, 13, 26, 704863)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:35360 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Model training completed for GBP/JPY 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.5909, Recall: 0.6500, F1: 0.6190
+INFO:     127.0.0.1:35370 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for GBP/JPY 4h
+INFO:     127.0.0.1:35374 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4722, Precision: 0.4286, Recall: 0.5625, F1: 0.4865
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(EUR/AUD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'EUR/AUD_1d_v1', 'symbol': 'EUR/AUD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 13, 31, 929106), 'last_prediction_at': None, 'model_path': './models/EUR_AUD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 13, 31, 929487), 'updated_at': datetime.datetime(2026, 1, 25, 16, 13, 31, 929489)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:35386 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for EUR/AUD 1h
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.4545, Recall: 0.3125, F1: 0.3704
+INFO:     127.0.0.1:39700 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for EUR/AUD 4h
+INFO:     127.0.0.1:39706 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3611, Precision: 0.1579, Recall: 0.3000, F1: 0.2069
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(GBP/AUD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'GBP/AUD_1d_v1', 'symbol': 'GBP/AUD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 13, 36, 727503), 'last_prediction_at': None, 'model_path': './models/GBP_AUD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 13, 36, 727881), 'updated_at': datetime.datetime(2026, 1, 25, 16, 13, 36, 727883)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:39714 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Model training completed for GBP/AUD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.6389, Precision: 0.6522, Recall: 0.7500, F1: 0.6977
+INFO:     127.0.0.1:39728 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for GBP/AUD 4h
+INFO:     127.0.0.1:39742 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.6364, Recall: 0.3333, F1: 0.4375
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(BTC/USD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'BTC/USD_1d_v1', 'symbol': 'BTC/USD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 13, 41, 969482), 'last_prediction_at': None, 'model_path': './models/BTC_USD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 13, 41, 969840), 'updated_at': datetime.datetime(2026, 1, 25, 16, 13, 41, 969842)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:39752 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Model training completed for BTC/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3611, Precision: 0.4500, Recall: 0.4286, F1: 0.4390
+INFO:     127.0.0.1:34954 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for BTC/USD 4h
+INFO:     127.0.0.1:34966 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3333, Precision: 0.3077, Recall: 0.2105, F1: 0.2500
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(ETH/USD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'ETH/USD_1d_v1', 'symbol': 'ETH/USD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 13, 47, 360922), 'last_prediction_at': None, 'model_path': './models/ETH_USD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 13, 47, 361343), 'updated_at': datetime.datetime(2026, 1, 25, 16, 13, 47, 361346)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:34980 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3889, Precision: 0.2941, Recall: 0.3333, F1: 0.3125
+INFO:models:Model training completed for ETH/USD 1h
+INFO:     127.0.0.1:34994 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for ETH/USD 4h
+INFO:     127.0.0.1:35000 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5556, Recall: 0.5000, F1: 0.5263
+ERROR:__main__:Training failed: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "ix_models_name"
+DETAIL:  Key (name)=(LTC/USD_1d_v1) already exists.
+
+[SQL: INSERT INTO models (name, symbol, timeframe, version, model_type, accuracy, precision, recall, f1_score, is_active, is_deployed, trained_at, last_prediction_at, model_path, created_at, updated_at) VALUES (%(name)s, %(symbol)s, %(timeframe)s, %(version)s, %(model_type)s, %(accuracy)s, %(precision)s, %(recall)s, %(f1_score)s, %(is_active)s, %(is_deployed)s, %(trained_at)s, %(last_prediction_at)s, %(model_path)s, %(created_at)s, %(updated_at)s) RETURNING models.id]
+[parameters: {'name': 'LTC/USD_1d_v1', 'symbol': 'LTC/USD', 'timeframe': '1d', 'version': 1, 'model_type': None, 'accuracy': None, 'precision': None, 'recall': None, 'f1_score': None, 'is_active': False, 'is_deployed': False, 'trained_at': datetime.datetime(2026, 1, 25, 16, 13, 53, 704645), 'last_prediction_at': None, 'model_path': './models/LTC_USD_1d_model.pkl', 'created_at': datetime.datetime(2026, 1, 25, 16, 13, 53, 704973), 'updated_at': datetime.datetime(2026, 1, 25, 16, 13, 53, 704974)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+INFO:     127.0.0.1:56924 - "POST /api/v1/train HTTP/1.1" 500 Internal Server Error
+INFO:models:Model training completed for LTC/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4444, Precision: 0.4000, Recall: 0.3529, F1: 0.3750
+INFO:models:Model training completed for LTC/USD 4h
+INFO:     127.0.0.1:40838 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40844 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5882, Recall: 0.4762, F1: 0.5263
+INFO:     127.0.0.1:50606 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for EUR/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.5333, Recall: 0.4706, F1: 0.5000
+INFO:     127.0.0.1:50614 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.4545, Recall: 0.6250, F1: 0.5263
+INFO:models:Model training completed for EUR/USD 4h
+INFO:models:Model training completed for GBP/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4167, Precision: 0.4286, Recall: 0.3158, F1: 0.3636
+INFO:     127.0.0.1:50628 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for GBP/USD 4h
+INFO:     127.0.0.1:50632 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4722, Precision: 0.3750, Recall: 0.4000, F1: 0.3871
+INFO:     127.0.0.1:50638 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/JPY 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.6087, Recall: 0.6667, F1: 0.6364
+INFO:     127.0.0.1:49564 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for USD/JPY 4h
+INFO:models:Model trained - Accuracy: 0.6389, Precision: 0.8095, Recall: 0.6538, F1: 0.7234
+INFO:     127.0.0.1:49576 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for XAU/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3889, Precision: 0.3000, Recall: 0.4286, F1: 0.3529
+INFO:     127.0.0.1:49578 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for XAU/USD 4h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5000, Recall: 0.5000, F1: 0.5000
+INFO:     127.0.0.1:49580 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for AUD/USD 1h
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5200, Recall: 0.6842, F1: 0.5909
+INFO:     127.0.0.1:49584 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for AUD/USD 4h
+INFO:models:Model trained - Accuracy: 0.4167, Precision: 0.3750, Recall: 0.3529, F1: 0.3636
+INFO:     127.0.0.1:56656 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/CAD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4722, Precision: 0.4545, Recall: 0.2778, F1: 0.3448
+INFO:     127.0.0.1:56672 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for USD/CAD 4h
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.3529, Recall: 0.5000, F1: 0.4138
+INFO:     127.0.0.1:56674 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3611, Precision: 0.4737, Recall: 0.4091, F1: 0.4390
+INFO:models:Model training completed for USD/CHF 1h
+INFO:     127.0.0.1:56690 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for USD/CHF 4h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.5294, Recall: 0.5294, F1: 0.5294
+INFO:     127.0.0.1:56706 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for GBP/JPY 1h
+INFO:models:Model trained - Accuracy: 0.5556, Precision: 0.5909, Recall: 0.6500, F1: 0.6190
+INFO:     127.0.0.1:56712 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4722, Precision: 0.4286, Recall: 0.5625, F1: 0.4865
+INFO:models:Model training completed for GBP/JPY 4h
+INFO:     127.0.0.1:59154 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for EUR/AUD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5278, Precision: 0.4545, Recall: 0.3125, F1: 0.3704
+INFO:     127.0.0.1:59160 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3611, Precision: 0.1579, Recall: 0.3000, F1: 0.2069
+INFO:models:Model training completed for EUR/AUD 4h
+INFO:     127.0.0.1:59166 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for GBP/AUD 1h
+INFO:models:Model trained - Accuracy: 0.6389, Precision: 0.6522, Recall: 0.7500, F1: 0.6977
+INFO:     127.0.0.1:59168 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Model training completed for GBP/AUD 4h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.6364, Recall: 0.3333, F1: 0.4375
+INFO:     127.0.0.1:59178 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3611, Precision: 0.4500, Recall: 0.4286, F1: 0.4390
+INFO:models:Model training completed for BTC/USD 1h
+INFO:     127.0.0.1:56672 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+INFO:models:Model training completed for BTC/USD 4h
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.3333, Precision: 0.3077, Recall: 0.2105, F1: 0.2500
+INFO:     127.0.0.1:56686 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model training completed for ETH/USD 1h
+INFO:models:Model trained - Accuracy: 0.3889, Precision: 0.2941, Recall: 0.3333, F1: 0.3125
+INFO:     127.0.0.1:56702 - "POST /api/v1/train HTTP/1.1" 200 OK
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.5000, Precision: 0.5556, Recall: 0.5000, F1: 0.5263
+INFO:models:Model training completed for ETH/USD 4h
+INFO:models:Model training completed for LTC/USD 1h
+INFO:models:Prepared 179 training samples with 23 features
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1207: RuntimeWarning: invalid value encountered in divide
+  updated_mean = (last_sum + new_sum) / updated_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1212: RuntimeWarning: invalid value encountered in divide
+  T = new_sum / new_sample_count
+/home/soarer/Documents/projects/Arena/FreqAIServer/venv/lib/python3.11/site-packages/sklearn/utils/extmath.py:1236: RuntimeWarning: invalid value encountered in divide
+  new_unnormalized_variance -= correction**2 / new_sample_count
+INFO:models:Model trained - Accuracy: 0.4444, Precision: 0.4000, Recall: 0.3529, F1: 0.3750
+INFO:models:Model training completed for LTC/USD 4h
+INFO:     127.0.0.1:52748 - "GET /api/v1/models HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:__main__:FreqAI server shutting down
+INFO:     Application shutdown complete.
+INFO:     Finished server process [10155]
