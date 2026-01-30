@@ -14,6 +14,7 @@ from config import HOST, PORT, DEBUG, ALLOWED_ORIGINS
 from market_data import MarketDataFetcher
 from features import FeatureEngineer
 from models import ModelTrainer
+from risk_management import RiskManagement, RiskManagementConfig
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO)
@@ -61,6 +62,8 @@ class PredictionRequest(BaseModel):
 
 
 class PredictionResponse(BaseModel):
+    model_config = {"exclude_none": False}
+    
     symbol: str
     timeframe: str
     signal: str  # buy, sell, hold
@@ -68,6 +71,14 @@ class PredictionResponse(BaseModel):
     probability_buy: float
     probability_sell: float
     probability_hold: float
+    entry_price: Optional[float] = None
+    stop_loss: Optional[float] = None
+    take_profit_1: Optional[float] = None
+    take_profit_2: Optional[float] = None
+    take_profit_3: Optional[float] = None
+    atr: Optional[float] = None
+    pivot_support_1: Optional[float] = None
+    pivot_resistance_1: Optional[float] = None
     timestamp: datetime
 
 
@@ -238,7 +249,102 @@ async def predict_signal(
         db.add(pred_obj)
         db.commit()
         
-        return {
+        # Calculate TP/SL using risk management if signal is actionable
+        entry_price = None
+        stop_loss = None
+        tp1 = None
+        tp2 = None
+        tp3 = None
+        atr = None
+        pivot_s1 = None
+        pivot_r1 = None
+        
+        signal_type = prediction['signal'].upper() if isinstance(prediction['signal'], str) else str(prediction['signal']).upper()
+        
+        if signal_type in ['BUY', 'SELL']:
+            try:
+                # Use current close price as entry
+                latest_data = db.query(TrainingData).filter(
+                    TrainingData.symbol == request.symbol,
+                    TrainingData.timeframe == request.timeframe
+                ).order_by(TrainingData.timestamp.desc()).first()
+                
+                if latest_data:
+                    entry_price = float(latest_data.close)
+                    
+                    # Extract features for risk management
+                    features = cleaned_features
+                    atr_val = features.get('atr_14', None)
+                    atr = float(atr_val) if atr_val is not None else None
+                    
+                    # Get pivot points
+                    pivot_data = prediction.get('pivot_points', {})
+                    pivot_s1 = pivot_data.get('s1', None)
+                    pivot_r1 = pivot_data.get('r1', None)
+                    
+                    # Initialize risk manager
+                    rm_config = RiskManagementConfig(
+                        tp1_risk_reward=1.0,
+                        tp2_risk_reward=2.0,
+                        tp3_risk_reward=3.0,
+                    )
+                    risk_manager = RiskManagement(rm_config)
+                    
+                    # Get support/resistance from features
+                    support_level = features.get('ema_50', entry_price * 0.99) or (entry_price * 0.99)
+                    resistance_level = features.get('ema_200', entry_price * 1.01) or (entry_price * 1.01)
+                    
+                    # Convert to float if needed
+                    support_level = float(support_level) if support_level is not None else (entry_price * 0.99)
+                    resistance_level = float(resistance_level) if resistance_level is not None else (entry_price * 1.01)
+                    
+                    # Calculate SL/TP based on direction
+                    if signal_type == 'BUY':
+                        trade_levels = risk_manager.calculate_long_trade_levels(
+                            entry_price=entry_price,
+                            support_level=support_level,
+                            pivot_data=pivot_data or {},
+                            atr=atr,
+                        )
+                        if trade_levels and 'error' not in trade_levels:
+                            stop_loss = float(trade_levels.get('stop_loss', entry_price * 0.95))
+                            tp1_obj = trade_levels.get('tp1')
+                            tp2_obj = trade_levels.get('tp2')
+                            tp3_obj = trade_levels.get('tp3')
+                            tp1 = float(tp1_obj.get('price')) if tp1_obj else None
+                            tp2 = float(tp2_obj.get('price')) if tp2_obj else None
+                            tp3 = float(tp3_obj.get('price')) if tp3_obj else None
+                            logger.info(f"✅ [TP/SL] BUY {request.symbol}: Entry={entry_price}, SL={stop_loss}, TP1={tp1}, TP2={tp2}, TP3={tp3}")
+                        else:
+                            logger.warning(f"⚠️ [TP/SL] BUY trade_levels error: {trade_levels}")
+                    else:  # SELL
+                        trade_levels = risk_manager.calculate_short_trade_levels(
+                            entry_price=entry_price,
+                            resistance_level=resistance_level,
+                            pivot_data=pivot_data or {},
+                            atr=atr,
+                        )
+                        if trade_levels and 'error' not in trade_levels:
+                            stop_loss = float(trade_levels.get('stop_loss', entry_price * 1.05))
+                            tp1_obj = trade_levels.get('tp1')
+                            tp2_obj = trade_levels.get('tp2')
+                            tp3_obj = trade_levels.get('tp3')
+                            tp1 = float(tp1_obj.get('price')) if tp1_obj else None
+                            tp2 = float(tp2_obj.get('price')) if tp2_obj else None
+                            tp3 = float(tp3_obj.get('price')) if tp3_obj else None
+                            logger.info(f"✅ [TP/SL] SELL {request.symbol}: Entry={entry_price}, SL={stop_loss}, TP1={tp1}, TP2={tp2}, TP3={tp3}")
+                        else:
+                            logger.warning(f"⚠️ [TP/SL] SELL trade_levels error: {trade_levels}")
+                else:
+                    logger.warning(f"⚠️ [TP/SL] No training data for {request.symbol} {request.timeframe}")
+            except Exception as e:
+                logger.error(f"❌ [TP/SL] Failed to calculate TP/SL: {e}", exc_info=True)
+                # Continue without TP/SL if calculation fails
+        
+        # DEBUG: Log return values
+        logger.info(f"DEBUG: Returning entry_price={entry_price}, stop_loss={stop_loss}, tp1={tp1}, tp2={tp2}, tp3={tp3}")
+        
+        response_dict = {
             "symbol": request.symbol,
             "timeframe": request.timeframe,
             "signal": prediction['signal'],
@@ -246,8 +352,18 @@ async def predict_signal(
             "probability_buy": prediction.get('probability_buy', 0),
             "probability_sell": prediction.get('probability_sell', 0),
             "probability_hold": prediction.get('probability_hold', 0),
+            "entry_price": entry_price,
+            "stop_loss": stop_loss,
+            "take_profit_1": tp1,
+            "take_profit_2": tp2,
+            "take_profit_3": tp3,
+            "atr": atr,
+            "pivot_support_1": pivot_s1,
+            "pivot_resistance_1": pivot_r1,
             "timestamp": datetime.utcnow()
         }
+        logger.info(f"DEBUG: Response dict keys: {response_dict.keys()}")
+        return response_dict
     except HTTPException:
         raise
     except Exception as e:
