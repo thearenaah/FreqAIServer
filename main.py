@@ -121,29 +121,44 @@ async def train_model(
     Runs in background to avoid blocking
     """
     try:
-        # Create or get model
-        model = db.query(Model).filter(
+        # Sanitize symbol for file path (replace / with _)
+        safe_symbol = request.symbol.replace('/', '_')
+        model_path = f"./models/{safe_symbol}_{request.timeframe}_model.pkl"
+        
+        # Check if model exists (by symbol + timeframe, not name)
+        existing_model = db.query(Model).filter(
             Model.symbol == request.symbol,
-            Model.timeframe == request.timeframe,
-            Model.is_active == True
+            Model.timeframe == request.timeframe
         ).first()
         
-        if not model:
-            # Sanitize symbol for file path (replace / with _)
-            safe_symbol = request.symbol.replace('/', '_')
-            model_path = f"./models/{safe_symbol}_{request.timeframe}_model.pkl"
-            
+        if existing_model:
+            # Update existing model - increment version
+            model = existing_model
+            model.version += 1
+            model.trained_at = datetime.utcnow()
+            model.name = f"{request.symbol}_{request.timeframe}_v{model.version}"
+            model.model_path = model_path
+            model.is_active = False  # Mark as not ready until training completes
+            model.is_deployed = False
+            db.commit()
+            db.refresh(model)
+            logger.info(f"Updating model {model.id} to version {model.version}")
+        else:
+            # Create new model
             model = Model(
                 name=f"{request.symbol}_{request.timeframe}_v1",
                 symbol=request.symbol,
                 timeframe=request.timeframe,
                 version=1,
                 trained_at=datetime.utcnow(),
-                model_path=model_path
+                model_path=model_path,
+                is_active=False,
+                is_deployed=False
             )
             db.add(model)
             db.commit()
             db.refresh(model)
+            logger.info(f"Created new model {model.id}")
         
         # Create training job
         job = TrainingJob(model_id=model.id, status="pending")
@@ -162,7 +177,8 @@ async def train_model(
             "message": "Training started",
             "model_id": model.id,
             "job_id": job.id,
-            "status": "pending"
+            "status": "pending",
+            "model_version": model.version
         }
     except Exception as e:
         logger.error(f"Training failed: {e}")
