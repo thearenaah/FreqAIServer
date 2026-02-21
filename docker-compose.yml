@@ -1,0 +1,52 @@
+services:
+  # FreqAI PostgreSQL Database
+  freqai_postgres:
+    image: postgres:15-alpine
+    container_name: freqai_postgres
+    environment:
+      POSTGRES_DB: freqai_db
+      POSTGRES_USER: freqai_user
+      POSTGRES_PASSWORD: freqai_password
+    volumes:
+      - freqai_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U freqai_user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # FreqAI Redis Cache
+  freqai_redis:
+    image: redis:7-alpine
+    container_name: freqai_redis
+    ports:
+      - "6380:6379"
+
+  # FreqAI Server (FastAPI)
+  freqai:
+    build: .
+    container_name: freqai_server
+    command: uvicorn main:app --host 0.0.0.0 --port 9000
+    volumes:
+      - .:/app
+    ports:
+      - "9000:9000"
+    environment:
+      - FREQAI_DATABASE_URL=postgresql://freqai_user:freqai_password@freqai_postgres:5432/freqai_db
+      - REDIS_URL=redis://freqai_redis:6379/1
+      - FREQAI_HOST=0.0.0.0
+      - FREQAI_PORT=9000
+      - FREQAI_DEBUG=False
+      - TWELVE_DATA_API_KEY=9f2de4a9d1c94de28ccec57b6865d9e5
+      - CCXT_EXCHANGE=binance
+      - LOG_LEVEL=INFO
+    depends_on:
+      freqai_postgres:
+        condition: service_healthy
+      freqai_redis:
+        condition: service_started
+
+volumes:
+  freqai_postgres_data:
