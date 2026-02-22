@@ -15,7 +15,6 @@ import logging
 
 from database import Model, TrainingData, Prediction, TrainingJob
 from features import FeatureEngineer
-from strategy_rules import StrategyEngine, StrategyRules, Signal
 from config import MODEL_PATH, FEATURE_WINDOW, TRAINING_WINDOW
 
 logger = logging.getLogger(__name__)
@@ -30,8 +29,6 @@ class ModelTrainer:
     def __init__(self):
         self.feature_engineer = FeatureEngineer()
         self.scaler = StandardScaler()
-        self.strategy_rules = StrategyRules()
-        self.strategy_engine = StrategyEngine(self.strategy_rules)
     
     def prepare_training_data(
         self,
@@ -274,173 +271,104 @@ class ModelTrainer:
     
     def predict(self, model: Model, db: Session) -> dict:
         """
-        Make prediction using trained model + strategy rules engine
-        Returns professional trading signal with confidence from strategy
-        Falls back to rule-based signal if model file not found
+        Pure ML prediction. No rule-based fallback.
+        Returns the ML model's signal and class probabilities.
+        Raises exception if model file is missing (caller handles 404).
         """
-        try:
-            ml_model = None
-            scaler = None
-            ml_probability = 0.5
-            ml_signal = "HOLD"
-            
-            # Try to load model and scaler
-            try:
-                ml_model = joblib.load(model.model_path)
-                scaler_path = model.model_path.replace("_model.pkl", "_scaler.pkl")
-                scaler = joblib.load(scaler_path)
-            except FileNotFoundError:
-                logger.warning(f"Model file not found for {model.symbol}, using rule-based signal")
-            
-            # Get latest data for features
-            latest_data = db.query(TrainingData).filter(
-                TrainingData.symbol == model.symbol,
-                TrainingData.timeframe == model.timeframe
-            ).order_by(TrainingData.timestamp.desc()).limit(
-                FEATURE_WINDOW
-            ).all()
-            
-            if not latest_data:
-                # Fallback: return simple signal based on model accuracy if available
-                if model.accuracy and model.accuracy > 0.5:
-                    return {
-                        "signal": "BUY" if model.accuracy > 0.6 else "HOLD",
-                        "confidence": model.accuracy if model.accuracy else 0.5,
-                        "ml_probability": 0.5,
-                        "strategy_signal": "HOLD",
-                        "strategy_confidence": 0.0,
-                        "reasons": ["No training data available, using model accuracy as signal"],
-                        "features": {}
-                    }
-                return {
-                    "signal": "HOLD",
-                    "confidence": 0.0,
-                    "ml_probability": 0.5,
-                    "strategy_signal": "HOLD",
-                    "strategy_confidence": 0.0,
-                    "reasons": ["Insufficient data"],
-                    "features": {}
-                }
-            
-            # Reverse chronological order
-            latest_data = list(reversed(latest_data))
-            
-            # Create DataFrame
-            df = pd.DataFrame([{
-                'timestamp': d.timestamp,
-                'open': d.open,
-                'high': d.high,
-                'low': d.low,
-                'close': d.close,
-                'volume': d.volume,
-            } for d in latest_data])
-            
-            # Get professional features with strategy analysis
-            prof_features = self.feature_engineer.calculate_professional_features(
-                df, include_patterns=True
+        import joblib
+        import numpy as np
+        import pandas as pd
+        from pathlib import Path
+
+        # ---- 1. Load ML model and scaler (raise if missing) ----
+        model_path = model.model_path
+        scaler_path = model_path.replace('_model.pkl', '_scaler.pkl')
+
+        if not Path(model_path).exists():
+            raise FileNotFoundError(f'Model file not found: {model_path}')
+        if not Path(scaler_path).exists():
+            raise FileNotFoundError(f'Scaler file not found: {scaler_path}')
+
+        ml_model = joblib.load(model_path)
+        scaler = joblib.load(scaler_path)
+
+        # ---- 2. Load latest candles ----
+        from database import TrainingData
+        from config import FEATURE_WINDOW
+        latest_data = db.query(TrainingData).filter(
+            TrainingData.symbol == model.symbol,
+            TrainingData.timeframe == model.timeframe
+        ).order_by(TrainingData.timestamp.desc()).limit(FEATURE_WINDOW).all()
+
+        if not latest_data or len(latest_data) < FEATURE_WINDOW:
+            raise ValueError(
+                f'Insufficient data for {model.symbol} {model.timeframe}: '
+                f'need {FEATURE_WINDOW}, have {len(latest_data) if latest_data else 0}'
             )
-            
-            # Extract strategy signals
-            strategy_signal = "HOLD"
-            strategy_confidence = 0.0
-            strategy_reasons = []
-            
-            if prof_features and 'signal_analysis' in prof_features:
-                signal_analysis = prof_features['signal_analysis']
-                
-                # Check LONG signal strength
-                long_signal = signal_analysis['long_signal']
-                long_confidence = signal_analysis['long_confidence']
-                long_reasons = signal_analysis['long_reasons']
-                
-                # Check SHORT signal strength
-                short_signal = signal_analysis['short_signal']
-                short_confidence = signal_analysis['short_confidence']
-                short_reasons = signal_analysis['short_reasons']
-                
-                # Determine primary signal
-                if long_confidence > short_confidence and long_confidence > 0.5:
-                    strategy_signal = "LONG"
-                    strategy_confidence = long_confidence
-                    strategy_reasons = long_reasons
-                elif short_confidence > long_confidence and short_confidence > 0.5:
-                    strategy_signal = "SHORT"
-                    strategy_confidence = short_confidence
-                    strategy_reasons = short_reasons
-                else:
-                    strategy_signal = "HOLD"
-                    strategy_confidence = 0.0
-                    strategy_reasons = ["No clear signal above confidence threshold"]
-            
-            # ML model prediction (if available)
-            if ml_model and scaler:
-                try:
-                    features = self.feature_engineer.calculate_price_features(df)
-                    feature_values = np.array(list(features.values())).reshape(1, -1)
-                    
-                    # Scale features
-                    feature_scaled = scaler.transform(feature_values)
-                    
-                    # Make ML prediction
-                    probabilities = ml_model.predict_proba(feature_scaled)[0]
-                    
-                    # Binary classification: 0 = sell/short, 1 = buy/long
-                    prob_short = probabilities[0]
-                    prob_long = probabilities[1]
-                    
-                    # Determine ML signal
-                    ml_signal = "LONG" if prob_long > prob_short else "SHORT"
-                    ml_probability = max(prob_long, prob_short)
-                except Exception as e:
-                    logger.warning(f"ML prediction failed: {e}, using strategy only")
-                    features = {}
+
+        latest_data = list(reversed(latest_data))  # chronological order
+
+        df = pd.DataFrame([{
+            'timestamp': d.timestamp,
+            'open': d.open,
+            'high': d.high,
+            'low': d.low,
+            'close': d.close,
+            'volume': d.volume,
+        } for d in latest_data])
+
+        # ---- 3. Calculate features ----
+        features = self.feature_engineer.calculate_price_features(df)
+        feature_values = np.array(list(features.values())).reshape(1, -1)
+
+        # ---- 4. Scale features ----
+        feature_scaled = scaler.transform(feature_values)
+
+        # ---- 5. ML prediction ----
+        # Model has 3 classes: 0=SELL, 1=HOLD, 2=BUY
+        probabilities = ml_model.predict_proba(feature_scaled)[0]
+
+        # Map class indices to labels
+        class_labels = ml_model.classes_  # typically [0, 1, 2]
+        prob_map = {cls: float(prob) for cls, prob in zip(class_labels, probabilities)}
+
+        prob_sell = prob_map.get(0, 0.0)
+        prob_hold = prob_map.get(1, 0.0)
+        prob_buy  = prob_map.get(2, 0.0)
+
+        # Highest probability wins
+        predicted_class = int(ml_model.predict(feature_scaled)[0])
+
+        if predicted_class == 2:
+            signal = 'BUY'
+            confidence = prob_buy
+        elif predicted_class == 0:
+            signal = 'SELL'
+            confidence = prob_sell
+        else:
+            signal = 'HOLD'
+            confidence = prob_hold
+
+        # ---- 6. Get latest close for TP/SL calculation ----
+        latest_close = float(latest_data[-1].close)
+        atr_val = features.get('atr_14', None)
+
+        # Clean features for JSON storage
+        cleaned_features = {}
+        for k, v in features.items():
+            if v is None or (isinstance(v, float) and (v != v or abs(v) == float('inf'))):
+                cleaned_features[k] = 0
             else:
-                features = {}
-            
-            # Final signal combines both strategies with higher weight on strategy rules
-            if strategy_confidence > 0.5:
-                final_signal = strategy_signal
-                final_confidence = strategy_confidence
-                final_reasons = strategy_reasons + [
-                    f"ML model confidence: {ml_probability:.2f} ({ml_signal})" if ml_model else "No ML model"
-                ]
-            else:
-                # Use model accuracy as fallback confidence
-                if model.accuracy and model.accuracy > 0.5:
-                    final_signal = "BUY" if model.accuracy > 0.6 else "HOLD"
-                    final_confidence = model.accuracy
-                    final_reasons = ["Using model accuracy as signal strength"]
-                else:
-                    # Fall back to ML signal if strategy is uncertain
-                    final_signal = ml_signal if ml_model else "HOLD"
-                    final_confidence = ml_probability if ml_model else 0.5
-                    final_reasons = [
-                        f"Strategy confidence below threshold, using ML: {ml_probability:.2f}" if ml_model else "No model available"
-                    ]
-            
-            return {
-                "signal": final_signal,
-                "confidence": float(final_confidence),
-                "ml_probability": float(ml_probability),
-                "ml_signal": ml_signal,
-                "strategy_signal": strategy_signal,
-                "strategy_confidence": float(strategy_confidence),
-                "reasons": final_reasons,
-                "features": features,
-                "pivot_points": prof_features.get('pivot_points', {}) if prof_features else {},
-                "candle_patterns": prof_features.get('candle_patterns', {}) if prof_features else {},
-            }
-        
-        except Exception as e:
-            logger.error(f"Prediction failed: {e}")
-            import traceback
-            traceback.print_exc()
-            return {
-                "signal": "HOLD",
-                "confidence": 0.0,
-                "ml_probability": 0.5,
-                "strategy_signal": "HOLD",
-                "strategy_confidence": 0.0,
-                "reasons": [str(e)],
-                "features": {}
-            }
+                cleaned_features[k] = v
+
+        return {
+            'signal': signal,
+            'confidence': float(confidence),
+            'probability_buy': prob_buy,
+            'probability_sell': prob_sell,
+            'probability_hold': prob_hold,
+            'entry_price': latest_close,
+            'atr': float(atr_val) if atr_val else None,
+            'features': cleaned_features,
+            'pivot_points': {},  # removed rule-based pivots
+        }

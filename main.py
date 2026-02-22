@@ -221,8 +221,11 @@ async def predict_signal(
         # Use model with highest accuracy
         model = models[0]
         
-        # Get prediction
-        prediction = trainer.predict(model, db)
+        # Get prediction - this will raise if model file missing or data insufficient
+        try:
+            prediction = trainer.predict(model, db)
+        except (FileNotFoundError, ValueError) as e:
+            raise HTTPException(status_code=404, detail=str(e))
         
         # Clean features (remove NaN values for JSON storage)
         features = prediction.get('features', {})

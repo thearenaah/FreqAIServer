@@ -7,18 +7,12 @@ import numpy as np
 from typing import Dict, List
 import ta  # Technical Analysis library
 
-from pivot_points import PivotPoints
-from candle_patterns import CandlePatterns
-from fibonacci_levels import FibonacciLevels
-from strategy_rules import StrategyEngine, StrategyRules
-
 
 class FeatureEngineer:
     """Calculate features for ML models - Professional Grade Strategy"""
     
-    def __init__(self, strategy_rules: StrategyRules = None):
-        self.rules = strategy_rules or StrategyRules()
-        self.strategy_engine = StrategyEngine(self.rules)
+    def __init__(self):
+        pass
     
     @staticmethod
     def calculate_rsi(close: np.ndarray, period: int = 14) -> np.ndarray:
