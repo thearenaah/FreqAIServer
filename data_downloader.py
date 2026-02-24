@@ -58,7 +58,10 @@ def insert_candles(db, symbol, timeframe, candles):
     """Insert candles into TrainingData table, skip existing timestamps."""
     inserted = 0
     for c in candles:
-        ts = datetime.strptime(c['datetime'], '%Y-%m-%d %H:%M:%S')
+        try:
+            ts = datetime.strptime(c['datetime'], '%Y-%m-%d %H:%M:%S')
+        except ValueError:
+            ts = datetime.strptime(c['datetime'], '%Y-%m-%d')
         # Check if already exists
         exists = db.query(TrainingData).filter(
             TrainingData.symbol == symbol,
