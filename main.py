@@ -264,6 +264,9 @@ async def predict_signal(
         
         signal_type = prediction['signal'].upper() if isinstance(prediction['signal'], str) else str(prediction['signal']).upper()
         
+        # Return 404 if no actionable signal
+        if signal_type == 'HOLD':
+            raise HTTPException(status_code=404, detail=f"No actionable signal for {request.symbol} {request.timeframe}")
         if signal_type in ['BUY', 'SELL']:
             try:
                 # Use current close price as entry
