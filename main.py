@@ -258,7 +258,14 @@ async def predict_signal(
         tp1 = None
         tp2 = None
         tp3 = None
-        atr = None
+        # volatility_atr = atr/price, so atr = volatility_atr * price
+        # entry_price not set yet, use last close as proxy
+        _last_close = float(db.query(TrainingData).filter(
+            TrainingData.symbol == request.symbol,
+            TrainingData.timeframe == request.timeframe
+        ).order_by(TrainingData.timestamp.desc()).first().close)
+        volatility_atr = cleaned_features.get("volatility_atr", 0)
+        atr = float(volatility_atr) * _last_close if volatility_atr else None
         pivot_s1 = None
         pivot_r1 = None
         
