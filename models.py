@@ -318,7 +318,7 @@ class ModelTrainer:
         } for d in latest_data])
 
         # ---- 3. Calculate features ----
-        features = self.feature_engineer.calculate_price_features(df)
+        features = self.feature_engineer.calculate_advanced_features(df)
         feature_values = np.array(list(features.values())).reshape(1, -1)
 
         # ---- 4. Scale features ----

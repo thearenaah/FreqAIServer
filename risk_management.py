@@ -220,7 +220,7 @@ class RiskManagement:
             tp_candidates,
             self.config.tp1_risk_reward,
             self.config.tp1_size,
-            max_distance=0.001  # Minimum 0.1% below entry
+            max_distance=entry_price * 0.999  # Must be at least 0.1% below entry
         )
         
         tp2 = self._assign_tp_level_short(

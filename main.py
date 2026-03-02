@@ -296,51 +296,32 @@ async def predict_signal(
                     )
                     risk_manager = RiskManagement(rm_config)
                     
-                    # Get support/resistance from features
-                    support_level = features.get('ema_50', entry_price * 0.99) or (entry_price * 0.99)
-                    resistance_level = features.get('ema_200', entry_price * 1.01) or (entry_price * 1.01)
-                    
-                    # Convert to float if needed
-                    support_level = float(support_level) if support_level is not None else (entry_price * 0.99)
-                    resistance_level = float(resistance_level) if resistance_level is not None else (entry_price * 1.01)
-                    
-                    # Calculate SL/TP based on direction
+                    # Calculate SL/TP using ATR multiples directly
+                    # This gives distinct TP1/TP2/TP3 without needing pivot data
+                    if atr and atr > 0:
+                        atr_sl  = atr * 1.5
+                        atr_tp1 = atr * 1.0   # 1:1 RR
+                        atr_tp2 = atr * 2.0   # 2:1 RR
+                        atr_tp3 = atr * 3.0   # 3:1 RR
+                    else:
+                        # Fallback: % of price when no ATR
+                        atr_sl  = entry_price * 0.015
+                        atr_tp1 = entry_price * 0.010
+                        atr_tp2 = entry_price * 0.020
+                        atr_tp3 = entry_price * 0.030
+
                     if signal_type == 'BUY':
-                        trade_levels = risk_manager.calculate_long_trade_levels(
-                            entry_price=entry_price,
-                            support_level=support_level,
-                            pivot_data=pivot_data or {},
-                            atr=atr,
-                        )
-                        if trade_levels and 'error' not in trade_levels:
-                            stop_loss = float(trade_levels.get('stop_loss', entry_price * 0.95))
-                            tp1_obj = trade_levels.get('tp1')
-                            tp2_obj = trade_levels.get('tp2')
-                            tp3_obj = trade_levels.get('tp3')
-                            tp1 = float(tp1_obj.get('price')) if tp1_obj else None
-                            tp2 = float(tp2_obj.get('price')) if tp2_obj else None
-                            tp3 = float(tp3_obj.get('price')) if tp3_obj else None
-                            logger.info(f"✅ [TP/SL] BUY {request.symbol}: Entry={entry_price}, SL={stop_loss}, TP1={tp1}, TP2={tp2}, TP3={tp3}")
-                        else:
-                            logger.warning(f"⚠️ [TP/SL] BUY trade_levels error: {trade_levels}")
+                        stop_loss = entry_price - atr_sl
+                        tp1 = entry_price + atr_tp1
+                        tp2 = entry_price + atr_tp2
+                        tp3 = entry_price + atr_tp3
                     else:  # SELL
-                        trade_levels = risk_manager.calculate_short_trade_levels(
-                            entry_price=entry_price,
-                            resistance_level=resistance_level,
-                            pivot_data=pivot_data or {},
-                            atr=atr,
-                        )
-                        if trade_levels and 'error' not in trade_levels:
-                            stop_loss = float(trade_levels.get('stop_loss', entry_price * 1.05))
-                            tp1_obj = trade_levels.get('tp1')
-                            tp2_obj = trade_levels.get('tp2')
-                            tp3_obj = trade_levels.get('tp3')
-                            tp1 = float(tp1_obj.get('price')) if tp1_obj else None
-                            tp2 = float(tp2_obj.get('price')) if tp2_obj else None
-                            tp3 = float(tp3_obj.get('price')) if tp3_obj else None
-                            logger.info(f"✅ [TP/SL] SELL {request.symbol}: Entry={entry_price}, SL={stop_loss}, TP1={tp1}, TP2={tp2}, TP3={tp3}")
-                        else:
-                            logger.warning(f"⚠️ [TP/SL] SELL trade_levels error: {trade_levels}")
+                        stop_loss = entry_price + atr_sl
+                        tp1 = entry_price - atr_tp1
+                        tp2 = entry_price - atr_tp2
+                        tp3 = entry_price - atr_tp3
+
+                    logger.info(f"✅ [TP/SL] {signal_type} {request.symbol}: Entry={entry_price}, SL={stop_loss}, TP1={tp1}, TP2={tp2}, TP3={tp3}")
                 else:
                     logger.warning(f"⚠️ [TP/SL] No training data for {request.symbol} {request.timeframe}")
             except Exception as e:
