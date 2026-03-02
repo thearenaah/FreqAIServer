@@ -276,25 +276,34 @@ async def predict_signal(
                 ).order_by(TrainingData.timestamp.desc()).first()
                 
                 if latest_data:
-                    entry_price = float(latest_data.close)
-                    
-                    # Extract features for risk management
-                    features = cleaned_features
-                    atr_val = features.get('atr_14', None)
-                    atr = float(atr_val) if atr_val is not None else None
-                    
-                    # Get pivot points
-                    pivot_data = prediction.get('pivot_points', {})
-                    pivot_s1 = pivot_data.get('s1', None)
-                    pivot_r1 = pivot_data.get('r1', None)
-                    
-                    # Initialize risk manager
-                    rm_config = RiskManagementConfig(
-                        tp1_risk_reward=1.0,
-                        tp2_risk_reward=2.0,
-                        tp3_risk_reward=3.0,
-                    )
-                    risk_manager = RiskManagement(rm_config)
+                    # Try to fetch live price from TwelveData
+                    try:
+                        import httpx, os
+                        twelve_key = os.environ.get('TWELVE_DATA_API_KEY')
+                        if twelve_key:
+                            resp = httpx.get(
+                                'https://api.twelvedata.com/price',
+                                params={'symbol': request.symbol, 'apikey': twelve_key},
+                                timeout=5.0
+                            )
+                            if resp.status_code == 200:
+                                price_data = resp.json()
+                                live_price = float(price_data.get('price', 0))
+                                if live_price > 0:
+                                    entry_price = live_price
+                                    logger.info(f"✅ [PRICE] Live price for {request.symbol}: {entry_price}")
+                                else:
+                                    entry_price = float(latest_data.close)
+                                    logger.warning(f"⚠️ [PRICE] Invalid live price, using DB close: {entry_price}")
+                            else:
+                                entry_price = float(latest_data.close)
+                                logger.warning(f"⚠️ [PRICE] TwelveData error {resp.status_code}, using DB close")
+                        else:
+                            entry_price = float(latest_data.close)
+                            logger.warning("⚠️ [PRICE] No TWELVE_DATA_API_KEY, using DB close")
+                    except Exception as price_err:
+                        entry_price = float(latest_data.close)
+                        logger.warning(f"⚠️ [PRICE] Live price fetch failed: {price_err}, using DB close")
                     
                     # Calculate SL/TP using ATR multiples directly
                     # This gives distinct TP1/TP2/TP3 without needing pivot data
