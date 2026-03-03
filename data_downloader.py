@@ -107,7 +107,7 @@ def main():
                         TrainingData.timeframe == tf_key
                     ).count()
                     logger.info(f'  {symbol} {tf_key}: +{n} new | total={count}')
-                    time.sleep(0.5)  # respect rate limits
+                    time.sleep(1.2)  # respect TwelveData 55 credits/min limit
                 except Exception as e:
                     logger.error(f'  ERROR {symbol} {tf_key}: {e}')
                     db.rollback()
