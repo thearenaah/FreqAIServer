@@ -29,9 +29,13 @@ SYMBOLS = [
 ]
 
 TIMEFRAMES = {
-    '1h': ('1h', 5000),    # TwelveData interval : max limit per request
-    '4h': ('4h', 5000),
-    '1d': ('1day', 5000),
+    '5m':  ('5min', 5000),   # ~17 days of data
+    '15m': ('15min', 5000),  # ~52 days of data
+    '30m': ('30min', 5000),  # ~104 days of data
+    '1h':  ('1h', 5000),     # ~7 months of data
+    '4h':  ('4h', 5000),     # ~2.3 years of data
+    '1d':  ('1day', 5000),   # ~13 years of data
+    '1w':  ('1week', 5000),  # max weekly data
 }
 
 
