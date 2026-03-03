@@ -316,9 +316,9 @@ async def predict_signal(
                     # This gives distinct TP1/TP2/TP3 without needing pivot data
                     if atr and atr > 0:
                         atr_sl  = atr * 1.5
-                        atr_tp1 = atr * 1.0   # 1:1 RR
-                        atr_tp2 = atr * 2.0   # 2:1 RR
-                        atr_tp3 = atr * 3.0   # 3:1 RR
+                        atr_tp1 = atr * 1.5   # 1:1 RR (matches SL distance)
+                        atr_tp2 = atr * 3.0   # 1:2 RR
+                        atr_tp3 = atr * 4.5   # 1:3 RR
                     else:
                         # Fallback: % of price when no ATR
                         atr_sl  = entry_price * 0.015
@@ -435,7 +435,7 @@ async def get_model(
 @app.post("/api/v1/sync-data")
 async def sync_market_data(
     symbols: List[str],
-    timeframes: List[str] = ["1h", "4h", "1d"],
+    timeframes: List[str] = ["5m", "15m", "30m", "1h", "4h", "1d", "1w"],
     background_tasks: BackgroundTasks = None
 ):
     """
