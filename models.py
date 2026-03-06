@@ -52,12 +52,21 @@ from database import Model, TrainingData, TrainingJob
 
 LOOKAHEAD_MAP = {
     '1m': 20, '5m': 12, '15m': 8, '30m': 6,
-    '1h': 5,  '4h': 5,  '1d': 3,  '1w': 2,
+    '1h': 5,  '4h': 5,  '1d': 5,  '1w': 3,
 }
 
-# Minimum ATR multiple the trade must travel cleanly (no SL hit) to be labelled BUY/SELL
-SL_ATR_MULT = 1.5   # SL = 1.5 × ATR from entry
-TP_ATR_MULT = 2.0   # TP = 2.0 × ATR from entry  (≈1:1.33 R:R minimum)
+# Timeframe-aware SL/TP multipliers
+# Longer TFs need looser ratios to prevent HOLD dominating (90%+) labels
+SL_ATR_MULT_MAP = {
+    '5m': 1.2, '15m': 1.3, '30m': 1.4,
+    '1h': 1.5, '4h':  1.5, '1d':  1.2, '1w': 1.0,
+}
+TP_ATR_MULT_MAP = {
+    '5m': 1.5, '15m': 1.6, '30m': 1.7,
+    '1h': 1.8, '4h':  1.8, '1d':  1.5, '1w': 1.2,
+}
+SL_ATR_MULT = 1.5
+TP_ATR_MULT = 2.0
 
 
 def _label_trade_outcome(
@@ -65,19 +74,24 @@ def _label_trade_outcome(
     i: int,
     lookahead: int,
     atr: float,
+    timeframe: str = '1h',
 ) -> int:
     """
     Simulate a trade from candle i for 'lookahead' candles.
+    Uses timeframe-aware SL/TP multiples to ensure balanced labels.
     Returns:
       +1  (BUY)  if TP_long  hit before SL_long
       -1  (SELL) if TP_short hit before SL_short
        0  (HOLD) if neither TP was hit cleanly OR price was ambiguous
     """
+    sl_mult = SL_ATR_MULT_MAP.get(timeframe, SL_ATR_MULT)
+    tp_mult = TP_ATR_MULT_MAP.get(timeframe, TP_ATR_MULT)
+
     entry = df['close'].iloc[i]
-    sl_long   = entry - atr * SL_ATR_MULT
-    tp_long   = entry + atr * TP_ATR_MULT
-    sl_short  = entry + atr * SL_ATR_MULT
-    tp_short  = entry - atr * TP_ATR_MULT
+    sl_long   = entry - atr * sl_mult
+    tp_long   = entry + atr * tp_mult
+    sl_short  = entry + atr * sl_mult
+    tp_short  = entry - atr * tp_mult
 
     long_hit  = False
     short_hit = False
@@ -253,7 +267,7 @@ class ModelTrainer:
 
             # Label: simulate trade with ATR-based SL/TP
             atr_val = float(atr_arr[i]) if not np.isnan(atr_arr[i]) else (df['close'].iloc[i] * 0.01)
-            label   = _label_trade_outcome(df, i, lookahead, atr_val)
+            label   = _label_trade_outcome(df, i, lookahead, atr_val, timeframe)
             labels.append(label)
 
         X = np.array(features_list, dtype=np.float32)
