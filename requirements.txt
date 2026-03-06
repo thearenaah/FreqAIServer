@@ -18,3 +18,4 @@ redis
 aiohttp
 httpx
 python-multipart
+xgboost
