@@ -289,7 +289,6 @@ class ModelTrainer:
                 gamma=0.1,
                 reg_alpha=0.05,
                 reg_lambda=1.0,
-                use_label_encoder=False,
                 eval_metric='mlogloss',
                 random_state=42,
                 n_jobs=-1,
