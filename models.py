@@ -53,9 +53,17 @@ class ModelTrainer:
         }
         lookahead = lookahead_map.get(timeframe, 5)
         
-        # Improved minimum percentage move for better class balance
-        # Using 0.2% instead of 0.5% allows capturing more trading opportunities
-        min_pct_move = 0.002  # 0.2% (aggressive/improved strategy)
+        # Timeframe-aware label thresholds
+        threshold_map = {
+            '5m':  0.0015,
+            '15m': 0.002,
+            '30m': 0.003,
+            '1h':  0.004,
+            '4h':  0.006,
+            '1d':  0.010,
+            '1w':  0.020,
+        }
+        min_pct_move = threshold_map.get(timeframe, 0.004)
         
         # Get historical data
         data = db.query(TrainingData).filter(
@@ -98,11 +106,10 @@ class ModelTrainer:
             downside_pct = (current_close - future_low) / (current_close + 1e-10)
             
             # Aggressive label logic for better BUY/SELL distribution
-            # Using 0.25% threshold with minimal ratio requirement (1.05x)
-            # This creates ~20-25% actionable signals (BUY+SELL) and ~75% HOLD
-            if upside_pct >= 0.0025 and upside_pct > downside_pct * 1.05:
+            # Using timeframe-aware threshold with 1.2x ratio requirement
+            if upside_pct >= min_pct_move and upside_pct > downside_pct * 1.2:
                 label = 1  # BUY signal - upside potential detected
-            elif downside_pct >= 0.0025 and downside_pct > upside_pct * 1.05:
+            elif downside_pct >= min_pct_move and downside_pct > upside_pct * 1.2:
                 label = -1  # SELL signal - downside risk detected
             else:
                 label = 0  # HOLD - balanced or insufficient move
@@ -320,6 +327,17 @@ class ModelTrainer:
         # ---- 3. Calculate features ----
         features = self.feature_engineer.calculate_advanced_features(df)
         feature_values = np.array(list(features.values())).reshape(1, -1)
+
+        # ---- 3b. Feature count guard ----
+        expected_features = scaler.n_features_in_
+        actual_features = feature_values.shape[1]
+        if actual_features != expected_features:
+            if actual_features < expected_features:
+                padding = np.zeros((1, expected_features - actual_features))
+                feature_values = np.concatenate([feature_values, padding], axis=1)
+            else:
+                feature_values = feature_values[:, :expected_features]
+            logger.warning(f'Feature count mismatch: expected {expected_features}, got {actual_features} - adjusted')
 
         # ---- 4. Scale features ----
         feature_scaled = scaler.transform(feature_values)

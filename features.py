@@ -416,10 +416,27 @@ class FeatureEngineer:
         features['candle_doji'] = 1 if (abs(close[-1] - close[-2]) < candle_range * 0.1) else 0
         
         # 8. PRICE ACTION (4)
-        features['price_above_open'] = 1 if close[-1] > close[-1] else 0  # Bullish close
+        features['price_above_open'] = 1 if close[-1] > df['open'].values[-1] else 0  # Bullish close
         features['price_momentum'] = (close[-1] - close[-5]) / (close[-5] + 1e-10) if len(close) > 5 else 0
         features['consecutive_ups'] = sum(1 for i in range(1, min(5, len(close))) if close[-i] > close[-(i+1)])
         features['consecutive_downs'] = sum(1 for i in range(1, min(5, len(close))) if close[-i] < close[-(i+1)])
+        
+        # 9. REVERSAL / MEAN REVERSION FEATURES
+        bb_middle = pd.Series(close).rolling(20).mean().values[-1]
+        bb_std = pd.Series(close).rolling(20).std().values[-1]
+        bb_upper = bb_middle + (2 * bb_std)
+        bb_lower = bb_middle - (2 * bb_std)
+        bb_range = bb_upper - bb_lower
+
+        features['bb_position'] = (current_price - bb_lower) / (bb_range + 1e-10)
+        features['bb_overbought'] = 1 if current_price > bb_upper else 0
+        features['bb_oversold'] = 1 if current_price < bb_lower else 0
+
+        rsi_now = FeatureEngineer.calculate_rsi(close, 14)[-1]
+        rsi_prev = FeatureEngineer.calculate_rsi(close[:-3], 14)[-1] if len(close) > 17 else rsi_now
+        features['bearish_divergence'] = 1 if (close[-1] > close[-4] and rsi_now < rsi_prev and rsi_now > 60) else 0
+        features['bullish_divergence'] = 1 if (close[-1] < close[-4] and rsi_now > rsi_prev and rsi_now < 40) else 0
+        features['price_sma20_distance'] = (current_price - sma_20) / (sma_20 + 1e-10)
         
         return features
     
@@ -450,7 +467,10 @@ class FeatureEngineer:
             # Candle Patterns (4)
             'candle_bullish', 'candle_hammer', 'candle_shooting_star', 'candle_doji',
             # Price Action (4)
-            'price_above_open', 'price_momentum', 'consecutive_ups', 'consecutive_downs'
+            'price_above_open', 'price_momentum', 'consecutive_ups', 'consecutive_downs',
+            # Reversal / Mean Reversion (6)
+            'bb_position', 'bb_overbought', 'bb_oversold',
+            'bearish_divergence', 'bullish_divergence', 'price_sma20_distance'
         ]
 
 
