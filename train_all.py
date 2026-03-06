@@ -30,7 +30,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 BASE_URL = 'http://localhost:9000'
-TIMEOUT  = 600   # max seconds to wait per job (10 min for large datasets)
+TIMEOUT  = 900   # max seconds to wait per job (15 min for large datasets)
 
 SYMBOLS = [
     # Forex majors
@@ -70,7 +70,7 @@ def trigger_training(symbol: str, timeframe: str):
     resp = requests.post(
         f'{BASE_URL}/api/v1/train',
         json={'symbol': symbol, 'timeframe': timeframe, 'limit': 5000},
-        timeout=30
+        timeout=120
     )
     resp.raise_for_status()
     data = resp.json()
@@ -84,7 +84,7 @@ def wait_for_job(job_id, symbol: str, timeframe: str) -> bool:
     dot_count = 0
     while time.time() - start < TIMEOUT:
         try:
-            resp = requests.get(f'{BASE_URL}/api/v1/jobs/{job_id}', timeout=10)
+            resp = requests.get(f'{BASE_URL}/api/v1/jobs/{job_id}', timeout=60)
             if resp.status_code == 200:
                 data   = resp.json()
                 status = data.get('status', 'unknown')
@@ -106,7 +106,8 @@ def wait_for_job(job_id, symbol: str, timeframe: str) -> bool:
                 return True
         except Exception as e:
             logger.warning(f'  Poll error: {e}')
-        time.sleep(5)
+            time.sleep(15)  # back off on error
+        time.sleep(15)  # slower polling to reduce DB load
     logger.error(f'  ✗ {symbol} {timeframe}: timed out after {TIMEOUT}s')
     return False
 

@@ -15,6 +15,7 @@ from market_data import MarketDataFetcher
 from features import FeatureEngineer
 from models import ModelTrainer
 from risk_management import RiskManagement, RiskManagementConfig
+from regime_classifier import classify_regime_rules, calculate_tp_sl
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO)
@@ -63,10 +64,10 @@ class PredictionRequest(BaseModel):
 
 class PredictionResponse(BaseModel):
     model_config = {"exclude_none": False}
-    
+
     symbol: str
     timeframe: str
-    signal: str  # buy, sell, hold
+    signal: str
     confidence: float
     probability_buy: float
     probability_sell: float
@@ -77,6 +78,9 @@ class PredictionResponse(BaseModel):
     take_profit_2: Optional[float] = None
     take_profit_3: Optional[float] = None
     atr: Optional[float] = None
+    regime: Optional[str] = None
+    regime_adx: Optional[float] = None
+    regime_confidence: Optional[float] = None
     pivot_support_1: Optional[float] = None
     pivot_resistance_1: Optional[float] = None
     timestamp: datetime
@@ -107,7 +111,6 @@ class HealthResponse(BaseModel):
 
 @app.get("/health", response_model=HealthResponse)
 async def health(db: Session = Depends(get_db)):
-    """Health check endpoint"""
     try:
         models_count = db.query(Model).count()
         return {
@@ -127,35 +130,27 @@ async def train_model(
     background_tasks: BackgroundTasks,
     db: Session = Depends(get_db)
 ):
-    """
-    Train a new model for a symbol/timeframe
-    Runs in background to avoid blocking
-    """
     try:
-        # Sanitize symbol for file path (replace / with _)
         safe_symbol = request.symbol.replace('/', '_')
         model_path = f"./models/{safe_symbol}_{request.timeframe}_model.pkl"
-        
-        # Check if model exists (by symbol + timeframe, not name)
+
         existing_model = db.query(Model).filter(
             Model.symbol == request.symbol,
             Model.timeframe == request.timeframe
         ).first()
-        
+
         if existing_model:
-            # Update existing model - increment version
             model = existing_model
             model.version += 1
             model.trained_at = datetime.utcnow()
             model.name = f"{request.symbol}_{request.timeframe}_v{model.version}"
             model.model_path = model_path
-            model.is_active = False  # Mark as not ready until training completes
+            model.is_active = False
             model.is_deployed = False
             db.commit()
             db.refresh(model)
             logger.info(f"Updating model {model.id} to version {model.version}")
         else:
-            # Create new model
             model = Model(
                 name=f"{request.symbol}_{request.timeframe}_v1",
                 symbol=request.symbol,
@@ -170,20 +165,18 @@ async def train_model(
             db.commit()
             db.refresh(model)
             logger.info(f"Created new model {model.id}")
-        
-        # Create training job
+
         job = TrainingJob(model_id=model.id, status="pending")
         db.add(job)
         db.commit()
-        
-        # Queue background task
+
         background_tasks.add_task(
             trainer.train_model_async,
             model_id=model.id,
             symbol=request.symbol,
             timeframe=request.timeframe
         )
-        
+
         return {
             "message": "Training started",
             "model_id": model.id,
@@ -201,41 +194,35 @@ async def predict_signal(
     request: PredictionRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    Get signal prediction for a symbol/timeframe
-    """
     try:
-        # Get active models, ordered by accuracy (highest first)
         models = db.query(Model).filter(
             Model.symbol == request.symbol,
             Model.timeframe == request.timeframe,
             Model.is_deployed == True
         ).order_by(Model.accuracy.desc()).all()
-        
+
         if not models:
             raise HTTPException(
                 status_code=404,
                 detail=f"No active model for {request.symbol} {request.timeframe}"
             )
-        
-        # Use model with highest accuracy
+
         model = models[0]
-        
-        # Get prediction - this will raise if model file missing or data insufficient
+
         try:
             prediction = trainer.predict(model, db)
         except (FileNotFoundError, ValueError) as e:
             raise HTTPException(status_code=404, detail=str(e))
-        
-        # Clean features (remove NaN values for JSON storage)
+
+        # Clean features
         features = prediction.get('features', {})
         cleaned_features = {}
         for k, v in features.items():
             if v is not None and not (isinstance(v, float) and (v != v or v == float('inf') or v == float('-inf'))):
                 cleaned_features[k] = v
             else:
-                cleaned_features[k] = 0  # Replace NaN/Inf with 0
-        
+                cleaned_features[k] = 0
+
         # Store prediction
         pred_obj = Prediction(
             model_id=model.id,
@@ -251,39 +238,37 @@ async def predict_signal(
         )
         db.add(pred_obj)
         db.commit()
-        
-        # Calculate TP/SL using risk management if signal is actionable
-        entry_price = None
-        stop_loss = None
-        tp1 = None
-        tp2 = None
-        tp3 = None
-        # volatility_atr = atr/price, so atr = volatility_atr * price
-        # entry_price not set yet, use last close as proxy
+
+        signal_type = prediction['signal'].upper() if isinstance(prediction['signal'], str) else str(prediction['signal']).upper()
+
+        if signal_type == 'HOLD':
+            raise HTTPException(status_code=404, detail=f"No actionable signal for {request.symbol} {request.timeframe}")
+
+        # ── ATR from features ──────────────────────────────────────────────
         _last_close = float(db.query(TrainingData).filter(
             TrainingData.symbol == request.symbol,
             TrainingData.timeframe == request.timeframe
         ).order_by(TrainingData.timestamp.desc()).first().close)
+
         volatility_atr = cleaned_features.get("volatility_atr", 0)
         atr = float(volatility_atr) * _last_close if volatility_atr else None
-        pivot_s1 = None
-        pivot_r1 = None
-        
-        signal_type = prediction['signal'].upper() if isinstance(prediction['signal'], str) else str(prediction['signal']).upper()
-        
-        # Return 404 if no actionable signal
-        if signal_type == 'HOLD':
-            raise HTTPException(status_code=404, detail=f"No actionable signal for {request.symbol} {request.timeframe}")
+
+        entry_price = None
+        stop_loss   = None
+        tp1 = tp2 = tp3 = None
+        regime_name = None
+        regime_adx  = None
+        regime_conf = None
+
         if signal_type in ['BUY', 'SELL']:
             try:
-                # Use current close price as entry
                 latest_data = db.query(TrainingData).filter(
                     TrainingData.symbol == request.symbol,
                     TrainingData.timeframe == request.timeframe
                 ).order_by(TrainingData.timestamp.desc()).first()
-                
+
                 if latest_data:
-                    # Try to fetch live price from TwelveData
+                    # ── Fetch live price ───────────────────────────────────
                     try:
                         import httpx, os
                         twelve_key = os.environ.get('TWELVE_DATA_API_KEY')
@@ -294,79 +279,101 @@ async def predict_signal(
                                 timeout=5.0
                             )
                             if resp.status_code == 200:
-                                price_data = resp.json()
-                                live_price = float(price_data.get('price', 0))
-                                if live_price > 0:
-                                    entry_price = live_price
-                                    logger.info(f"✅ [PRICE] Live price for {request.symbol}: {entry_price}")
-                                else:
-                                    entry_price = float(latest_data.close)
-                                    logger.warning(f"⚠️ [PRICE] Invalid live price, using DB close: {entry_price}")
+                                live_price = float(resp.json().get('price', 0))
+                                entry_price = live_price if live_price > 0 else float(latest_data.close)
+                                logger.info(f"✅ [PRICE] Live price for {request.symbol}: {entry_price}")
                             else:
                                 entry_price = float(latest_data.close)
-                                logger.warning(f"⚠️ [PRICE] TwelveData error {resp.status_code}, using DB close")
                         else:
                             entry_price = float(latest_data.close)
-                            logger.warning("⚠️ [PRICE] No TWELVE_DATA_API_KEY, using DB close")
                     except Exception as price_err:
                         entry_price = float(latest_data.close)
-                        logger.warning(f"⚠️ [PRICE] Live price fetch failed: {price_err}, using DB close")
-                    
-                    # Calculate SL/TP using ATR multiples directly
-                    # This gives distinct TP1/TP2/TP3 without needing pivot data
+                        logger.warning(f"⚠️ [PRICE] Live price fetch failed: {price_err}")
+
+                    # ── Regime detection ──────────────────────────────────
+                    try:
+                        regime_result = classify_regime_rules(cleaned_features)
+                        regime_name = regime_result.regime
+                        regime_adx  = regime_result.adx
+                        regime_conf = regime_result.confidence
+                        logger.info(f"🔍 [REGIME] {request.symbol} {request.timeframe}: {regime_name} (adx={regime_adx:.1f}, conf={regime_conf:.2f})")
+                    except Exception as re:
+                        logger.warning(f"⚠️ [REGIME] classify failed: {re}")
+                        regime_name = "UNKNOWN"
+                        regime_adx  = 0.0
+                        regime_conf = 0.5
+
+                    # ── Regime-aware TP/SL ────────────────────────────────
                     if atr and atr > 0:
-                        atr_sl  = atr * 1.5
-                        atr_tp1 = atr * 1.5   # 1:1 RR (matches SL distance)
-                        atr_tp2 = atr * 3.0   # 1:2 RR
-                        atr_tp3 = atr * 4.5   # 1:3 RR
+                        try:
+                            tp_sl = calculate_tp_sl(
+                                entry_price=entry_price,
+                                atr=atr,
+                                signal=signal_type,
+                                regime=regime_name
+                            )
+                            stop_loss = tp_sl['stop_loss']
+                            tp1       = tp_sl['tp1']
+                            tp2       = tp_sl['tp2']
+                            tp3       = tp_sl['tp3']
+                            logger.info(
+                                f"✅ [TP/SL] {signal_type} {request.symbol} [{regime_name}]: "
+                                f"Entry={entry_price}, SL={stop_loss}, "
+                                f"TP1={tp1}, TP2={tp2}, TP3={tp3}"
+                            )
+                        except Exception as tpe:
+                            logger.warning(f"⚠️ [TP/SL] regime_classifier failed: {tpe}, using flat multiples")
+                            # Fallback to flat multiples
+                            atr_sl = atr * 1.5
+                            if signal_type == 'BUY':
+                                stop_loss = entry_price - atr_sl
+                                tp1 = entry_price + atr * 1.5
+                                tp2 = entry_price + atr * 3.0
+                                tp3 = entry_price + atr * 4.5
+                            else:
+                                stop_loss = entry_price + atr_sl
+                                tp1 = entry_price - atr * 1.5
+                                tp2 = entry_price - atr * 3.0
+                                tp3 = entry_price - atr * 4.5
                     else:
-                        # Fallback: % of price when no ATR
-                        atr_sl  = entry_price * 0.015
-                        atr_tp1 = entry_price * 0.010
-                        atr_tp2 = entry_price * 0.020
-                        atr_tp3 = entry_price * 0.030
+                        # No ATR — percentage fallback
+                        pct_sl = entry_price * 0.015
+                        if signal_type == 'BUY':
+                            stop_loss = entry_price - pct_sl
+                            tp1 = entry_price + entry_price * 0.010
+                            tp2 = entry_price + entry_price * 0.020
+                            tp3 = entry_price + entry_price * 0.030
+                        else:
+                            stop_loss = entry_price + pct_sl
+                            tp1 = entry_price - entry_price * 0.010
+                            tp2 = entry_price - entry_price * 0.020
+                            tp3 = entry_price - entry_price * 0.030
 
-                    if signal_type == 'BUY':
-                        stop_loss = entry_price - atr_sl
-                        tp1 = entry_price + atr_tp1
-                        tp2 = entry_price + atr_tp2
-                        tp3 = entry_price + atr_tp3
-                    else:  # SELL
-                        stop_loss = entry_price + atr_sl
-                        tp1 = entry_price - atr_tp1
-                        tp2 = entry_price - atr_tp2
-                        tp3 = entry_price - atr_tp3
-
-                    logger.info(f"✅ [TP/SL] {signal_type} {request.symbol}: Entry={entry_price}, SL={stop_loss}, TP1={tp1}, TP2={tp2}, TP3={tp3}")
-                else:
-                    logger.warning(f"⚠️ [TP/SL] No training data for {request.symbol} {request.timeframe}")
             except Exception as e:
-                logger.error(f"❌ [TP/SL] Failed to calculate TP/SL: {e}", exc_info=True)
-                # Continue without TP/SL if calculation fails
-        
-        # DEBUG: Log return values
-        logger.info(f"DEBUG: Returning entry_price={entry_price}, stop_loss={stop_loss}, tp1={tp1}, tp2={tp2}, tp3={tp3}")
-        
-        response_dict = {
-            "symbol": request.symbol,
-            "timeframe": request.timeframe,
-            "signal": prediction['signal'],
-            "confidence": prediction['confidence'],
-            "probability_buy": prediction.get('probability_buy', 0),
-            "probability_sell": prediction.get('probability_sell', 0),
-            "probability_hold": prediction.get('probability_hold', 0),
-            "entry_price": entry_price,
-            "stop_loss": stop_loss,
-            "take_profit_1": tp1,
-            "take_profit_2": tp2,
-            "take_profit_3": tp3,
-            "atr": atr,
-            "pivot_support_1": pivot_s1,
-            "pivot_resistance_1": pivot_r1,
-            "timestamp": datetime.utcnow()
+                logger.error(f"❌ [TP/SL] Failed: {e}", exc_info=True)
+
+        return {
+            "symbol":            request.symbol,
+            "timeframe":         request.timeframe,
+            "signal":            prediction['signal'],
+            "confidence":        prediction['confidence'],
+            "probability_buy":   prediction.get('probability_buy', 0),
+            "probability_sell":  prediction.get('probability_sell', 0),
+            "probability_hold":  prediction.get('probability_hold', 0),
+            "entry_price":       entry_price,
+            "stop_loss":         stop_loss,
+            "take_profit_1":     tp1,
+            "take_profit_2":     tp2,
+            "take_profit_3":     tp3,
+            "atr":               atr,
+            "regime":            regime_name,
+            "regime_adx":        regime_adx,
+            "regime_confidence": regime_conf,
+            "pivot_support_1":   None,
+            "pivot_resistance_1": None,
+            "timestamp":         datetime.utcnow()
         }
-        logger.info(f"DEBUG: Response dict keys: {response_dict.keys()}")
-        return response_dict
+
     except HTTPException:
         raise
     except Exception as e:
@@ -379,14 +386,10 @@ async def list_models(
     symbol: Optional[str] = None,
     db: Session = Depends(get_db)
 ):
-    """List all models or filter by symbol"""
     query = db.query(Model)
-    
     if symbol:
         query = query.filter(Model.symbol == symbol)
-    
     models = query.all()
-    
     return [
         {
             "id": m.id,
@@ -404,16 +407,10 @@ async def list_models(
 
 
 @app.get("/api/v1/models/{model_id}")
-async def get_model(
-    model_id: int,
-    db: Session = Depends(get_db)
-):
-    """Get specific model details"""
+async def get_model(model_id: int, db: Session = Depends(get_db)):
     model = db.query(Model).filter(Model.id == model_id).first()
-    
     if not model:
         raise HTTPException(status_code=404, detail="Model not found")
-    
     return {
         "id": model.id,
         "name": model.name,
@@ -438,10 +435,6 @@ async def sync_market_data(
     timeframes: List[str] = ["5m", "15m", "30m", "1h", "4h", "1d", "1w"],
     background_tasks: BackgroundTasks = None
 ):
-    """
-    Sync market data for symbols
-    Runs in background
-    """
     try:
         if background_tasks:
             background_tasks.add_task(
@@ -449,13 +442,7 @@ async def sync_market_data(
                 symbols=symbols,
                 timeframes=timeframes
             )
-        
-        return {
-            "message": "Data sync started",
-            "symbols": symbols,
-            "timeframes": timeframes,
-            "status": "pending"
-        }
+        return {"message": "Data sync started", "symbols": symbols, "timeframes": timeframes, "status": "pending"}
     except Exception as e:
         logger.error(f"Data sync failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
@@ -463,13 +450,11 @@ async def sync_market_data(
 
 @app.get("/api/v1/status")
 async def service_status(db: Session = Depends(get_db)):
-    """Get service status and statistics"""
     try:
-        total_models = db.query(Model).count()
-        active_models = db.query(Model).filter(Model.is_active == True).count()
+        total_models    = db.query(Model).count()
+        active_models   = db.query(Model).filter(Model.is_active == True).count()
         deployed_models = db.query(Model).filter(Model.is_deployed == True).count()
         total_predictions = db.query(Prediction).count()
-        
         return {
             "service": "FreqAI Trading Signals",
             "status": "running",
@@ -492,7 +477,6 @@ async def service_status(db: Session = Depends(get_db)):
 
 @app.on_event("startup")
 async def startup_event():
-    """Initialize on startup"""
     logger.info(f"FreqAI server starting on {HOST}:{PORT}")
     init_db()
     logger.info("Database initialized")
@@ -500,16 +484,9 @@ async def startup_event():
 
 @app.on_event("shutdown")
 async def shutdown_event():
-    """Cleanup on shutdown"""
     logger.info("FreqAI server shutting down")
 
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(
-        app,
-        host=HOST,
-        port=PORT,
-        reload=DEBUG,
-        log_level="info"
-    )
+    uvicorn.run(app, host=HOST, port=PORT, reload=DEBUG, log_level="info")
