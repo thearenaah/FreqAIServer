@@ -293,7 +293,7 @@ async def predict_signal(
                     # ── Regime detection ──────────────────────────────────
                     try:
                         regime_result = classify_regime_rules(cleaned_features)
-                        regime_name = regime_result.regime
+                        regime_name = regime_result.regime_name
                         regime_adx  = regime_result.adx
                         regime_conf = regime_result.confidence
                         logger.info(f"🔍 [REGIME] {request.symbol} {request.timeframe}: {regime_name} (adx={regime_adx:.1f}, conf={regime_conf:.2f})")
