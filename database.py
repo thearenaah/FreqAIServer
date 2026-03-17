@@ -14,8 +14,10 @@ from config import DATABASE_URL
 engine = create_engine(
     DATABASE_URL,
     echo=False,
-    pool_size=10,
-    max_overflow=20,
+    pool_size=20,
+    max_overflow=40,
+    pool_recycle=300,
+    pool_timeout=60,
     pool_pre_ping=True,  # Verify connection health
 )
 
