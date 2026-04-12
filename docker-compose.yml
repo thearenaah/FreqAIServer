@@ -42,6 +42,8 @@ services:
       - TWELVE_DATA_API_KEY=9f2de4a9d1c94de28ccec57b6865d9e5
       - CCXT_EXCHANGE=binance
       - LOG_LEVEL=INFO
+      - FEATURE_WINDOW=200
+      - TRAINING_WINDOW=1000
     depends_on:
       freqai_postgres:
         condition: service_healthy
