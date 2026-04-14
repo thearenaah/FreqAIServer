@@ -299,6 +299,12 @@ async def predict_signal(
                         logger.info(f"🔍 [REGIME] {request.symbol} {request.timeframe}: {regime_name} (adx={regime_adx:.1f}, conf={regime_conf:.2f})")
                     except Exception as re:
                         logger.warning(f"⚠️ [REGIME] classify failed: {re}")
+                        from regime_classifier import RegimeResult, REGIME_RANGING
+                        regime_result = RegimeResult(
+                            regime=REGIME_RANGING, regime_name="UNKNOWN",
+                            adx=20.0, choppiness=50.0, trend_direction=0,
+                            confidence=0.5, allow_long=True, allow_short=True, notes="fallback"
+                        )
                         regime_name = "UNKNOWN"
                         regime_adx  = 0.0
                         regime_conf = 0.5
@@ -310,7 +316,7 @@ async def predict_signal(
                                 entry_price=entry_price,
                                 atr=atr,
                                 signal=signal_type,
-                                regime=regime_name
+                                regime=regime_result
                             )
                             stop_loss = tp_sl['stop_loss']
                             tp1       = tp_sl['tp1']
