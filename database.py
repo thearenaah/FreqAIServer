@@ -10,15 +10,19 @@ import json
 
 from config import DATABASE_URL
 
-# Create engine
+# Create engine with aggressive connection management
 engine = create_engine(
     DATABASE_URL,
     echo=False,
-    pool_size=20,
-    max_overflow=40,
-    pool_recycle=300,
-    pool_timeout=60,
-    pool_pre_ping=True,  # Verify connection health
+    pool_size=30,           # Increased from 20
+    max_overflow=50,        # Increased from 40
+    pool_recycle=300,       # Recycle connections every 5 minutes
+    pool_timeout=10,        # Reduced from 60 for faster failures
+    pool_pre_ping=True,     # Verify connection health before use
+    connect_args={
+        'connect_timeout': 10,
+    },
+    execution_options={'isolation_level': 'READ_COMMITTED'},
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

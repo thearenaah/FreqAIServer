@@ -10,7 +10,7 @@ from datetime import datetime
 import logging
 import numpy as np
 
-from database import init_db, get_db, Model, Prediction, TrainingData, TrainingJob
+from database import init_db, get_db, Model, Prediction, TrainingData, TrainingJob, engine
 from config import HOST, PORT, DEBUG, ALLOWED_ORIGINS
 from market_data import MarketDataFetcher
 from features import FeatureEngineer
@@ -45,6 +45,19 @@ app.add_middleware(
 fetcher = MarketDataFetcher()
 engineer = FeatureEngineer()
 trainer = ModelTrainer()
+
+
+@app.on_event("startup")
+async def startup():
+    """Initialize on startup"""
+    logger.info("FreqAI server starting - database pool initialized")
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    """Cleanup on shutdown - dispose all connections"""
+    logger.info("FreqAI server shutting down - disposing connections")
+    engine.dispose()
 
 
 # ============================================================================
