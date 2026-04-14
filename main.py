@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from typing import List, Optional, Dict
 from datetime import datetime
 import logging
+import numpy as np
 
 from database import init_db, get_db, Model, Prediction, TrainingData, TrainingJob
 from config import HOST, PORT, DEBUG, ALLOWED_ORIGINS
@@ -15,7 +16,7 @@ from market_data import MarketDataFetcher
 from features import FeatureEngineer
 from models import ModelTrainer
 from risk_management import RiskManagement, RiskManagementConfig
-from regime_classifier import classify_regime_rules, calculate_tp_sl
+from regime_classifier import classify_regime_rules, calculate_tp_sl, RegimeResult, REGIME_RANGING
 
 # Initialize logging
 logging.basicConfig(level=logging.INFO)
@@ -218,10 +219,13 @@ async def predict_signal(
         features = prediction.get('features', {})
         cleaned_features = {}
         for k, v in features.items():
-            if v is not None and not (isinstance(v, float) and (v != v or v == float('inf') or v == float('-inf'))):
-                cleaned_features[k] = v
-            else:
-                cleaned_features[k] = 0
+            try:
+                fv = float(v)
+                # Check for NaN, inf, -inf and convert to 0
+                cleaned_features[k] = 0.0 if (np.isnan(fv) or np.isinf(fv)) else fv
+            except (TypeError, ValueError):
+                # If conversion fails, set to 0
+                cleaned_features[k] = 0.0
 
         # Store prediction
         pred_obj = Prediction(
@@ -299,7 +303,6 @@ async def predict_signal(
                         logger.info(f"🔍 [REGIME] {request.symbol} {request.timeframe}: {regime_name} (adx={regime_adx:.1f}, conf={regime_conf:.2f})")
                     except Exception as re:
                         logger.warning(f"⚠️ [REGIME] classify failed: {re}")
-                        from regime_classifier import RegimeResult, REGIME_RANGING
                         regime_result = RegimeResult(
                             regime=REGIME_RANGING, regime_name="UNKNOWN",
                             adx=20.0, choppiness=50.0, trend_direction=0,
@@ -312,6 +315,15 @@ async def predict_signal(
                     # ── Regime-aware TP/SL ────────────────────────────────
                     if atr and atr > 0:
                         try:
+                            # Ensure regime_result is a RegimeResult object
+                            if regime_result is None or not isinstance(regime_result, RegimeResult):
+                                regime_result = RegimeResult(
+                                    regime=REGIME_RANGING, regime_name="UNKNOWN",
+                                    adx=20.0, choppiness=50.0, trend_direction=0,
+                                    confidence=0.5, allow_long=True, allow_short=True, notes="fallback"
+                                )
+                            
+                            logger.debug(f"DEBUG [TP/SL] regime_result type: {type(regime_result)}, regime_result: {regime_result}")
                             tp_sl = calculate_tp_sl(
                                 entry_price=entry_price,
                                 atr=atr,
@@ -319,9 +331,9 @@ async def predict_signal(
                                 regime=regime_result
                             )
                             stop_loss = tp_sl['stop_loss']
-                            tp1       = tp_sl['tp1']
-                            tp2       = tp_sl['tp2']
-                            tp3       = tp_sl['tp3']
+                            tp1       = tp_sl['take_profit_1']
+                            tp2       = tp_sl['take_profit_2']
+                            tp3       = tp_sl['take_profit_3']
                             logger.info(
                                 f"✅ [TP/SL] {signal_type} {request.symbol} [{regime_name}]: "
                                 f"Entry={entry_price}, SL={stop_loss}, "
